@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button (click)="exit()" slot="start">
+      <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Inicio de sesión</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label position="floating">Email: </ion-label>
+      <ion-input type="email" placeholder="Email"  name="email"
+        pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" [(ngModel)]="usuario.email" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña: </ion-label>
+      <ion-input type="password" placeholder="Contraseña" name="password"
+         [(ngModel)]="usuario.password" required></ion-input>
+    </ion-item>
+    <ion-button [disabled]="formulario.invalid" type="submit" expand="block" >
+      Iniciar sesión
+    </ion-button>
+  </ion-list>
+
+</form>
+</ion-content>
