@@ -1,4 +1,4 @@
-<ion-content class="ion-padding login-full">
+<ion-content class="ion-padding signup-full">
   <ion-grid fixed>
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
@@ -17,20 +17,27 @@
               </ion-input>
             </ion-item>
             <ion-item>
+              <ion-label position="floating">Usuario</ion-label>
+              <ion-input type="text" placeholder="Nombre de usuario" name="usuario"
+                [(ngModel)]="usuario.username" required>
+              </ion-input>
+            </ion-item>
+            <ion-item>
               <ion-label position="floating">Contraseña</ion-label>
               <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password" required>
               </ion-input>
             </ion-item>
+            <ion-item>
+              <ion-label position="floating">Confirmar Contraseña</ion-label>
+              <ion-input type="password" placeholder="Vuelva a escribir la contraseña" name="confirmPassword" [(ngModel)]="usuario.confirmPassword" required>
+              </ion-input>
+            </ion-item>
             <ion-button [disabled]="formulario.invalid" type="submit" fill="solid" color="warning" type="ios">
-              Iniciar sesión
+              Registrarse
             </ion-button>
-            <p class="forgetPass" (click)="onForgetPass()">¿Olvidaste la contraseña?</p>
+            <p class="hasAnAccount" (click)="onLogin()">¿Ya tienes una cuenta?</p>
           </ion-list>
         </form>
-        <ion-button fill="outline" color="primary" type="ios" (click)="exit()">
-          Cancelar
-        </ion-button>
-        <p class="signUp">¿No tienes una cuenta? <b (click)="onSignUp()">Regístrate</b></p>
       </ion-col>
     </ion-row>
 

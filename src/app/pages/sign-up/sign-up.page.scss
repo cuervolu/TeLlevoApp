@@ -1,7 +1,7 @@
 ion-content{
   font-family: 'Poppins', sans-serif;
 }
-.login-full{
+.signup-full{
   height: 100% !important;
   --background: white !important;
 }
@@ -22,13 +22,7 @@ ion-button{
   --background: white !important;
 }
 
-.forgetPass{
+.hasAnAccount{
   color: #56738F !important;
 }
-.signUp{
-  color: #56738F !important;
-}
-.signUp b{
-  color: #3A64FF !important;
-  text-decoration: underline;
-}
+

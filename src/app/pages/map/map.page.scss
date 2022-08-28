@@ -1,0 +1,32 @@
+ion-header{
+  --background: #012C56 !important;
+}
+ion-toolbar{
+  font-family: 'Poppins', sans-serif;
+}
+ion-card-title{
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+}
+ion-card-header{
+  text-align: center;
+  --background:#012C56 !important;
+}
+
+ion-card-content{
+  margin-top: 10px;
+  text-align: center;
+  color: #56738F !important;
+}
+
+ion-card-content p{
+  font-size: 0.5rem!important;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+}
+
+.footer{
+  font-size: 10px;
+  text-align: center;
+}

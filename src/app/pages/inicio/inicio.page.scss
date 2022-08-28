@@ -1,35 +1,45 @@
-.header{
-  --background: #ffffff !important;
-  align-items: center !important;
+.slide-full {
+  height: 100% !important;
+  background-color: #012C56;
 }
-.footer{
-  background-color: #ffffff !important;
-  --background: transparent !important;
+ion-slides{
+  --bullet-background-active: #FFB71B !important;
+  --bullet-background: #FFB71B !important;
 }
-.footer-title{
-  font-size: 0.5rem !important;
-  text-align: center;
-  color: rgb(112, 112, 112);
-  font-family: 'Poppins', sans-serif !important;
-  font-weight: 200 !important;
-}
-ion-content{
-  --ion-background-color: #ffffff;
-  align-items: center !important;
-  font-family: 'Poppins', sans-serif !important;
+ion-card {
+  overflow: unset !important;
+  background-color: #FFFFFF;
 }
 
-.text-dark{
-  color: black;
+ion-card {
+  height: 200px;
+  width: 300px;
+}
+
+.slide-image {
+  width: 100px;
   text-align: center;
-  text-transform: uppercase;
-  font-weight: 800;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  position: relative;
+  top: -50px;
 }
-.p-dark{
-  color: #535353;
-  text-align: justify;
+
+ion-card-header {
+  position: relative;
+  top: -50px;
+}
+ion-card-subtitle{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+ion-card-content {
+  position: relative;
+  top: -50px;
+  font-family: 'Poppins', sans-serif;
   font-weight: 200;
-}
-.p-dark b{
-  color: #FFD534;
 }

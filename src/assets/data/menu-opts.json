@@ -1,0 +1,17 @@
+[
+  {
+    "icon": "map-outline",
+    "name": "Explorar",
+    "redirectTo": "/tabs/explorar"
+  },
+  {
+    "icon": "navigate-outline",
+    "name": "Ir",
+    "redirectTo": "/tabs/ir"
+  },
+  {
+    "icon": "person-outline",
+    "name": "Perfil",
+    "redirectTo": "/tabs/perfil"
+  }
+]
