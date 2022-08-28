@@ -32,6 +32,11 @@
               <ion-input type="password" placeholder="Vuelva a escribir la contraseña" name="confirmPassword" [(ngModel)]="usuario.confirmPassword" required>
               </ion-input>
             </ion-item>
+            <ion-item lines="none" style="margin-top: 10px;">
+              <ion-checkbox color="warning" checked="true"></ion-checkbox>
+              <ion-label class="terminos">Acepto los términos y condiciones.</ion-label>
+            </ion-item>
+
             <ion-button [disabled]="formulario.invalid" type="submit" fill="solid" color="warning" type="ios">
               Registrarse
             </ion-button>
