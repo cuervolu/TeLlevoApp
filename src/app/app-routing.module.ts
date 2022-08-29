@@ -7,11 +7,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
   },
   {
-    path: '',
-    redirectTo: 'inicio',
-    pathMatch: 'full'
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
@@ -28,10 +23,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/explorar/explorar.module').then( m => m.ExplorarPageModule)
   },
   {
-    path: 'ir',
-    loadChildren: () => import('./pages/ir/ir.module').then( m => m.IrPageModule)
-  },
-  {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
@@ -42,6 +33,11 @@ const routes: Routes = [
   {
     path: 'forget-pass',
     loadChildren: () => import('./pages/forget-pass/forget-pass.module').then( m => m.ForgetPassPageModule)
+  },
+  {
+    path: '',
+    redirectTo: 'inicio',
+    pathMatch: 'full'
   },
 ];
 

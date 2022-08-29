@@ -18,10 +18,6 @@ const routes: Routes = [
         loadChildren: () => import('../explorar/explorar.module').then( m => m.ExplorarPageModule)
       },
       {
-        path: 'ir',
-        loadChildren: () => import('../ir/ir.module').then( m => m.IrPageModule)
-      },
-      {
         path: 'perfil',
         loadChildren: () => import('../perfil/perfil.module').then( m => m.PerfilPageModule)
       }
