@@ -24,12 +24,12 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Contraseña</ion-label>
-              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password" required>
+              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password" minlength="6" required>
               </ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Confirmar Contraseña</ion-label>
-              <ion-input type="password" placeholder="Vuelva a escribir la contraseña" name="confirmPassword" [(ngModel)]="usuario.confirmPassword" required>
+              <ion-input type="password" placeholder="Vuelva a escribir la contraseña" name="confirmPassword" [(ngModel)]="usuario.confirmPassword"  minlength="6" required>
               </ion-input>
             </ion-item>
             <ion-item lines="none" style="margin-top: 10px;">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
-import { LoginPage } from '../login/login.page';
+import { LoginPage } from '../../auth/login/login.page';
 
 @Component({
   selector: 'app-inicio',
@@ -45,7 +45,8 @@ export class InicioPage implements OnInit {
         (event instanceof NavigationEnd && event.url === '/inicio') ||
         event.url === '/' ||
         event.url === '/sign-up' ||
-        event.url === '/forget-pass'
+        event.url === '/forget-pass' ||
+        event.url === '/login'
       ) {
         this.menuCtrl.enable(false);
       }
