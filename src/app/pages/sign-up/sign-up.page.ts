@@ -18,6 +18,7 @@ import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/users.service';
 import { switchMap } from 'rxjs/operators';
 import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -65,7 +66,6 @@ export class SignUpPage implements OnInit {
       username: ['', [Validators.required, Validators.minLength(4)]],
       firstName: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
     });
   }
 
@@ -74,7 +74,10 @@ export class SignUpPage implements OnInit {
     if (!this.credentials || !password || !email) {
       return;
     }
-    const loading = await this.loadingCtrl.create();
+    const loading = await this.loadingCtrl.create({
+      spinner: 'circles',
+      mode: 'ios',
+    });
     await loading.present();
     const { username, firstName } = this.credentials.value;
     const user = this.authService
@@ -90,7 +93,14 @@ export class SignUpPage implements OnInit {
         )
       )
       .subscribe(() => {
-        this.router.navigate(['/home']);
+        if (user) {
+          this.router.navigate(['/home']);
+        } else {
+          this.showAlert(
+            '¡Ha ocurrido un error',
+            'Por favor, inténtelo de nuevo'
+          );
+        }
       });
     await loading.dismiss();
     if (!user) {

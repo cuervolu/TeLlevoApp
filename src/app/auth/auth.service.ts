@@ -16,8 +16,16 @@ export class AuthService {
   currentUser$ = authState(this.auth);
   constructor(private auth: Auth) {}
 
-  signup(email: string, password: string): Observable<UserCredential> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password));
+  signup(email: string, password: string) {
+    try {
+      const user = from(
+        createUserWithEmailAndPassword(this.auth, email, password)
+      );
+      return user;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   async login({ email, password }) {

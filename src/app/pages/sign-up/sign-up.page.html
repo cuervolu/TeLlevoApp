@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="action-buttons ion-padding">
-        <ion-button class="signup-button" mode="ios" type="submit">
+        <ion-button class="signup-button" mode="ios" type="submit" [disabled]="!credentials.valid">
           Registrarse
         </ion-button>
         <ion-button routerLink="/login" fill="clear" class="login-button">¿Ya tienes una cuenta?</ion-button>
