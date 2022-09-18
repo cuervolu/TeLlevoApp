@@ -50,6 +50,7 @@ ion-content {
           font-weight: bolder;
           font-size: 0.8rem;
           top: 3px;
+          font-family: "Poppins", sans-serif;
         }
         ion-input {
           font-size: 0.9rem;
@@ -60,6 +61,8 @@ ion-content {
       }
       ion-note{
         color: #EB4C61;
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
       }
     }
   }
