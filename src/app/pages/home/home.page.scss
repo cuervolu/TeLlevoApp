@@ -1,32 +1,104 @@
-ion-header{
-  --background: #012C56 !important;
+* {
+  font-family: "Poppins", sans-serif;
 }
-ion-toolbar{
-  font-family: 'Poppins', sans-serif;
-}
-ion-card-title{
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  font-size: 10px;
-}
-ion-card-header{
-  text-align: center;
-  --background:#012C56 !important;
+ion-header {
+  ion-toolbar,
+  ion-item {
+    --background: #f1f5f8;
+    background: #f1f5f8;
+    // padding: 0 10px;
+  }
+  ion-item {
+    h3 {
+      color: black;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    p {
+      color: #a0a0a0;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    ion-avatar {
+      --border-radius: 40px;
+    }
+  }
 }
 
-ion-card-content{
-  margin-top: 10px;
-  text-align: center;
-  color: #56738F !important;
-}
+ion-content {
+  --background: linear-gradient(
+    90deg,
+    rgba(43, 90, 148, 1) 0%,
+    rgba(45, 112, 229, 1) 35%,
+    rgba(45, 112, 229, 1) 100%
+  );
 
-ion-card-content p{
-  font-size: 0.5rem!important;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-}
+  .slides {
+    background: #f1f5f8;
+    padding: 4px 10px 20px 10px;
+    border-radius: 0 0 28px 28px;
+  }
+  ion-card {
+    width: 100%;
+    box-shadow: none;
+    border-radius: 14px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.8);
 
-.footer{
-  font-size: 10px;
-  text-align: center;
+    .main {
+      width: 60px;
+      height: 60px;
+      border-radius: 50px;
+      background: white;
+      box-shadow: 7px 7px 20px #dbdfe2, -7px -7px 20px #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 30px;
+      }
+    }
+    ion-card-title {
+      color: #343539;
+      font-weight: 200;
+    }
+  }
+
+  .container {
+    padding: 6px 20px;
+    color: #ffffff;
+    h2 {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    ion-item {
+      --background: rgba(255, 255, 255, 0.1) !important;
+      padding: 0;
+      margin: 14px 0;
+      --border-radius: 14px;
+      color: #ffffff;
+      font-weight: 600;
+
+      ion-label {
+        padding: 6px 0;
+
+        h4 {
+          font-weight: 600;
+          font-size: 16px;
+        }
+        h6 {
+          color: rgba(255, 255, 255, 0.66);
+          font-size: 0.6rem;
+        }
+      }
+    }
+
+    h2 {
+      padding-bottom: 8px;
+    }
+  }
 }

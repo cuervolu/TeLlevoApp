@@ -1,0 +1,14 @@
+ion-tabs {
+  ion-tab-bar {
+    --background: linear-gradient(
+      90deg,
+      rgba(45, 112, 229, 1) 35%,
+      rgba(45, 112, 229, 1) 100%
+    );
+    // --border: transparent;
+    --color: white;
+    ion-tab-button {
+      --color-selected: #F7D050;
+    }
+  }
+}

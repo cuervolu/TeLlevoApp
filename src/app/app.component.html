@@ -2,14 +2,14 @@
   <ion-split-pane when="md" contentId="main">
     <ion-menu side="start" menuId="first" contentId="main">
       <ion-header class="ion-no-border">
-        <ion-toolbar color="primary">
+        <ion-toolbar>
           <ion-title>Menú</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content fullscreen class="ion-padding">
-        <ion-list class="ion-no-border">
+        <ion-list class="ion-no-border" mode="ios">
           <ion-menu-toggle *ngFor="let c of componentes | async" [autoHide]="false">
-            <ion-item [routerLink]="c.redirectTo" detail lines="none">
+            <ion-item [routerLink]="c.redirectTo" lines="none" mode="ios">
               <ion-icon slot="start" [name]="c.icon" color="warning"></ion-icon>
               <ion-label color="primary">{{c.name}}</ion-label>
             </ion-item>
@@ -18,7 +18,7 @@
       </ion-content>
       <ion-footer>
         <ion-icon slot="start" color="warning" name="log-out-outline"></ion-icon>
-        <ion-item nav-clear menu-close button (click)="logout()" color="dark" lines="none">Cerrar Sesión</ion-item>
+        <ion-item nav-clear menu-close button (click)="logout()" lines="none">Cerrar Sesión</ion-item>
     </ion-footer>
     </ion-menu>
     <ion-router-outlet id="main"></ion-router-outlet>

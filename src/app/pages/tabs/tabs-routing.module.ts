@@ -6,13 +6,17 @@ import { TabsPage } from './tabs.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/tabs/explorar',
+    redirectTo: '/tabs/home',
     pathMatch: 'full'
   },
   {
     path: '',
     component: TabsPage,
     children: [
+      {
+        path: 'home',
+        loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
+      },
       {
         path: 'explorar',
         loadChildren: () => import('../explorar/explorar.module').then( m => m.ExplorarPageModule)

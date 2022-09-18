@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { MenuController, ModalController } from '@ionic/angular';
-import { LoginPage } from '../../auth/login/login.page';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio',
@@ -33,7 +32,6 @@ export class InicioPage implements OnInit {
   ];
 
   constructor(
-    private modalCtrl: ModalController,
     private menuCtrl: MenuController,
     private router: Router
   ) {}
@@ -54,18 +52,10 @@ export class InicioPage implements OnInit {
     //Mostrar  slides solo al ser la primera vez de uso
     const checkView = localStorage.getItem('pageDisplayed');
     if (checkView) {
-      this.mostrarLogin();
+      this.router.navigateByUrl('/login');
     } else {
       localStorage.setItem('pageDisplayed', 'ok');
     }
   }
 
-  async mostrarLogin() {
-    const modal = await this.modalCtrl.create({
-      component: LoginPage,
-    });
-    await modal.present();
-
-    const resp = await modal.onDidDismiss();
-  }
 }

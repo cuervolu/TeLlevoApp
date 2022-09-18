@@ -3,12 +3,11 @@ import {
   AlertController,
   LoadingController,
   MenuController,
-  ModalController,
-  NavController,
 } from '@ionic/angular';
-import { FormBuilder, NgForm } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,50 +15,45 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  usuario = {
-    email: '',
-    password: '',
-  };
+  credentials: FormGroup;
   constructor(
-    private modalCtrl: ModalController,
     private router: Router,
     private authService: AuthService,
     private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController
-  ) {
+    private loadingCtrl: LoadingController,
+    private menuCtrl: MenuController,
+    private fb: FormBuilder
+  ) {}
+
+  get email() {
+    return this.credentials.get('email');
   }
 
-  ngOnInit() {}
-
-  exit() {
-    this.modalCtrl.dismiss();
-    this.router.navigateByUrl('/inicio');
+  get password() {
+    return this.credentials.get('password');
   }
 
-  async onSubmit(formulario: NgForm) {
+  ngOnInit() {
+    this.credentials = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+  }
+
+  async login() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
-    const user = await this.authService.login(
-      this.usuario.email,
-      this.usuario.password
-    );
+    const user = await this.authService.login(this.credentials.value);
     await loading.dismiss();
     if (user) {
-      this.modalCtrl.dismiss();
       this.router.navigateByUrl('/home', { replaceUrl: true });
     } else {
       this.showAlert('Ha ocurrido un error', 'Por favor, inténtelo de nuevo');
     }
-  }
-
-  onSignUp() {
-    this.modalCtrl.dismiss();
-    this.router.navigateByUrl('/sign-up');
-  }
-
-  onForgetPass() {
-    this.modalCtrl.dismiss();
-    this.router.navigateByUrl('forget-pass');
   }
 
   async showAlert(header, message) {

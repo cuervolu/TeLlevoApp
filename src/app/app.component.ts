@@ -5,6 +5,7 @@ import { DataService } from './services/data.service';
 import { AuthService } from './auth/auth.service';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { UserService } from './services/users.service';
 
 @Component({
   selector: 'app-root',
@@ -13,29 +14,18 @@ import { MenuController } from '@ionic/angular';
 })
 export class AppComponent implements OnInit {
   componentes: Observable<Componente[]>;
-
+  user$ = this.userService.currentUserProfile$;
   constructor(
     private dataService: DataService,
     private authService: AuthService,
     private router: Router,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.componentes = this.dataService.getMenuOpts();
-    this.router.events.subscribe((event: RouterEvent) => {
-      if (
-        (event instanceof NavigationEnd && event.url === '/inicio') ||
-        event.url === '/' ||
-        event.url === '/sign-up' ||
-        event.url === '/forget-pass' ||
-        event.url === '/login'
-      ) {
-        this.menuCtrl.enable(false);
-      } else {
-        this.menuCtrl.enable(true);
-      }
-    });
+    this.menuCtrl.enable(true);
   }
 
   async logout() {

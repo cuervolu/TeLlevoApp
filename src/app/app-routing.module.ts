@@ -13,7 +13,17 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule),
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
+    ...canActivate(redirectLoggedInToHome)
+  },
+  {
+    path: 'sign-up',
+    loadChildren: () => import('./pages/sign-up/sign-up.module').then( m => m.SignUpPageModule),
+    ...canActivate(redirectLoggedInToHome)
+  },
+  {
+    path: 'forget-pass',
+    loadChildren: () => import('./pages/forget-pass/forget-pass.module').then( m => m.ForgetPassPageModule),
     ...canActivate(redirectLoggedInToHome)
   },
   {
@@ -37,18 +47,8 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
-    path: 'sign-up',
-    loadChildren: () => import('./auth/sign-up/sign-up.module').then( m => m.SignUpPageModule),
-    ...canActivate(redirectLoggedInToHome)
-  },
-  {
-    path: 'forget-pass',
-    loadChildren: () => import('./auth/forget-pass/forget-pass.module').then( m => m.ForgetPassPageModule),
-    ...canActivate(redirectLoggedInToHome)
-  },
-  {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'tabs/home',
     pathMatch: 'full'
   },
 ];

@@ -1,20 +1,220 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
+<ion-header class="ion-no-border" mode="ios">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button menu="first"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <div class="preview">
-    <ion-avatar (click)="changeImage()">
-      <img *ngIf="profile?.imageUrl; else placeholder_avatar;" [src]="profile.imageUrl" />
-      <ng-template #placeholder_avatar>
-        <div class="fallback">
-          <p>Select avatar</p>
-        </div>
-      </ng-template>
-    </ion-avatar>
+
+<ion-content fullscreen>
+  <!-- Skeleton Text -->
+  <div class="skeleton" *ngIf="loading">
+    <ion-item mode="ios" class="user">
+      <div class="hero">
+        <ion-grid fixed>
+          <ion-row class="ion-align-self-center">
+            <ion-col size="6" size-md="8" size-lg="7" class="ion-align-self-start">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>
+                    <ion-skeleton-text [animated]="true" style="width: 130px;"></ion-skeleton-text>
+                  </ion-card-subtitle>
+                  <ion-card-title>
+                    <ion-skeleton-text [animated]="true" style="width: 150px;"></ion-skeleton-text>
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+            <ion-col size="6" size-md="4" size-lg="5" class="ion-align-self-end">
+              <div class="profile-image">
+                <ion-avatar slot="end">
+                  <ion-skeleton-text [animated]="true"
+                    style="width: 80px; height:130px; bottom: 80px; margin-left: 15px;" class="imgSkeleton">
+                  </ion-skeleton-text>
+                </ion-avatar>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-item>
+
+    <div class="container">
+      <ion-list mode="ios">
+        <ion-list-header>
+          <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+        </ion-list-header>
+
+        <ion-item lines="full">
+
+          <ion-label slot="start" class="title">
+            <ion-skeleton-text [animated]="true" style="width: 60px"></ion-skeleton-text>
+          </ion-label>
+          <ion-label slot="end" class="userInfo">
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-skeleton-text [animated]="true" style="width: 60px"></ion-skeleton-text>
+          </ion-label>
+          <ion-label slot="end" class="userInfo">
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-skeleton-text [animated]="true" style="width: 60px"></ion-skeleton-text>
+          </ion-label>
+          <ion-label slot="end" class="userInfo">
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-skeleton-text [animated]="true" style="width: 60px"></ion-skeleton-text>
+          </ion-label>
+          <ion-label slot="end" class="userInfo">
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-skeleton-text [animated]="true" style="width: 60px"></ion-skeleton-text>
+          </ion-label>
+          <ion-label slot="end" class="userInfo">
+            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+    </div>
   </div>
+  <!-- End Skeleton Text -->
+
+  <div class="notLoading" *ngIf="!loading">
+    <ion-item>
+      <div class="hero">
+        <ion-grid fixed>
+          <ion-row class="ion-align-self-center">
+            <ion-col size="6" size-md="8" size-lg="7" class="ion-align-self-start">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Perfil de</ion-card-subtitle>
+                  <ion-card-title>{{profile.firstName}}
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+            <ion-col size="6" size-md="4" size-lg="5" class="ion-align-self-end">
+              <div class="profile-image" (click)="presentActionSheet()">
+                <ion-icon name="create"></ion-icon>
+                <img [src]="profile.imageUrl ?? '/assets/default.jpg'" alt="Foto de Perfil">
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-item>
+
+    <!-- Datos -->
+    <div class="container">
+      <ion-list mode="ios">
+        <ion-list-header>
+          Información Personal
+
+        </ion-list-header>
+
+        <ion-item lines="full">
+
+          <ion-label slot="start" class="title">
+            <ion-icon name="person-outline"></ion-icon>
+            Nombre
+          </ion-label>
+          <ion-label slot="end" class="userInfo">{{profile.firstName}}</ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-icon name="person-outline"></ion-icon>
+            Apellido
+          </ion-label>
+          <ion-label slot="end" *ngIf="profile.lastName !== null" class="ion-text-wrap userInfo"> {{profile.lastName}}
+          </ion-label>
+          <ion-label slot="end" class="ion-text-wrap userInfoNull" *ngIf="!profile.lastName">Sin datos</ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-icon name="mail-outline"></ion-icon>
+            Email
+          </ion-label>
+          <ion-label slot="end" class="ion-text-wrap userInfo"> {{profile.email}}</ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-icon name="at-outline"></ion-icon>
+            Usuario
+          </ion-label>
+          <ion-label slot="end" class="ion-text-wrap userInfo"> {{profile.username}}</ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" class="title">
+            <ion-icon name="car-outline"></ion-icon>
+            Chofer
+          </ion-label>
+          <ion-toggle [checked]="profile.esChofer" color="warning" slot="end"></ion-toggle>
+        </ion-item>
+
+      </ion-list>
+      <ion-button (click)="setOpen(true)" fill="outline" color="warning" mode="ios" expand="full" shape="round">Editar
+        Perfil</ion-button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <form [formGroup]="profileForm" (ngSubmit)="confirm()">
+    <ion-modal [isOpen]="isModalOpen">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar mode="ios">
+            <ion-buttons slot="start">
+              <ion-button (click)="setOpen(false)">Cancelar</ion-button>
+            </ion-buttons>
+            <ion-title>Editar Perfil</ion-title>
+            <ion-buttons slot="end">
+              <ion-button [strong]="true" type="submit" (click)="confirm()">Confirmar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding" id="editProfile">
+          <ion-item mode="ios" class="editProfile">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" autocapitalize autocorrect clearInput min="4" formControlName="firstName">
+            </ion-input>
+          </ion-item>
+          <ion-item mode="ios" class="editProfile">
+            <ion-label position="floating">Apellido</ion-label>
+            <ion-input type="text" autocapitalize autocorrect clearInput min="4" formControlName="lastName"></ion-input>
+          </ion-item>
+          <ion-item mode="ios" class="editProfile">
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input type="text" autocapitalize autocorrect clearInput min="4" maxlength="10"
+              formControlName="username"></ion-input>
+          </ion-item>
+          <ion-item mode="ios" class="editProfile">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" clearInput formControlName="email"></ion-input>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </form>
 </ion-content>

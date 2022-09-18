@@ -1,75 +1,98 @@
-// ion-card {
-//   font-family: "Poppins", sans-serif;
-// }
-
-// .card {
-//   margin: 0 auto;
-//   font-family: "Poppins", sans-serif;
-
-//   .header {
-//     height: 200px;
-
-//     .avatar {
-//       width: 160px;
-//       height: 160px;
-//       position: relative;
-//       margin: 0 auto;
-
-//       img {
-//         display: block;
-//         border-radius: 50%;
-//         position: absolute;
-//         bottom: calc(-1 * (80px + 4px));
-//         border: 8px solid #9dc912;
-//         background-color: #fff;
-//       }
-//     }
-//   }
-// }
-
-// .card-body {
-//   background-color: #ffffff;
-//   padding: 30px;
-//   height: calc(100vh - (200px + 56px));
-//   overflow: hidden;
-
-//   .user-meta {
-//     padding-top: 40px;
-
-//     .playername {
-//       font-size: 24px;
-//       font-weight: 600;
-//       color: #303940;
-//     }
-
-//     .country {
-//       font-size: 90%;
-//       color: #949ea6;
-//       text-transform: uppercase;
-//       margin: 0 auto;
-//     }
-//   }
-// }
-
-ion-avatar {
-  width: 128px;
-  height: 128px;
+* {
+  font-family: "Poppins", sans-serif;
+}
+ion-toolbar {
+  --background: #f1f5f8;
 }
 
-.preview {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-}
+ion-content:not(#editProfile) {
+  --background: linear-gradient(
+    90deg,
+    rgba(43, 90, 148, 1) 0%,
+    rgba(45, 112, 229, 1) 35%,
+    rgba(45, 112, 229, 1) 100%
+  );
+  ion-item:not(.editProfile) {
+    --background: #f1f5f8;
+    border-radius: 0 0 28px 28px;
+    .hero {
+      background: #f1f5f8;
+      padding: 4px 10px 20px 10px;
+      ion-grid {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        ion-card {
+          width: 100%;
+          box-shadow: none;
+          border-radius: 14px;
+          padding: 14px;
+          background: rgba(255, 255, 255, 0.8);
+          ion-card-title {
+            font-weight: 900;
+            font-size: 0.8rem;
+          }
+        }
+        .profile-image {
+          ion-icon {
+            z-index: 2;
+            position: absolute;
+            right: 3%;
+            top: 71%;
+            margin: auto;
+            font-size: 2rem;
+            color: #f7d050;
+            --ionicon-stroke-width: 16px;
+          }
+          img {
+            // width: 80%;
+            border-radius: 50%;
+            height: 130px;
+          }
+        }
+      }
+    }
+  }
 
-.fallback {
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
-  background: #bfbfbf;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
+  .container {
+    padding: 6px 20px;
+    ion-list {
+      background: transparent;
+      ion-list-header {
+        color: white;
+      }
+      ion-item {
+        --background: transparent;
+        ion-label {
+          font-family: "Poppins", sans-serif;
+        }
+        .title {
+          color: white;
+          font-size: 0.7rem;
+        }
+        .userInfo {
+          color: white;
+          font-size: 1rem;
+          font-weight: 700;
+        }
+        .userInfoNull {
+          color: #343539;
+          font-size: 0.7rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  ion-modal {
+    --background: rgba(255, 255, 255, 0.8) !important;
+    ng-template {
+      ion-content {
+        --background: red;
+        ion-item {
+          --background: red !important;
+          margin: 100px;
+        }
+      }
+    }
+  }
 }

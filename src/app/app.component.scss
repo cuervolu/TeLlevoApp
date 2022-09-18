@@ -1,11 +1,43 @@
-ion-menu ion-item{
-  --background: white !important;
-}
-ion-menu ion-content{
-  --background: white !important;
-}
-
-ion-split-pane{
+ion-split-pane {
   --border: #c5c4c4;
   --side-max-width: 200px;
+}
+
+ion-menu {
+  ion-header {
+    ion-toolbar {
+      --background: linear-gradient(
+        90deg,
+        rgba(43, 90, 148, 1) 0%,
+        rgba(45, 112, 229, 1) 35%,
+        rgba(45, 112, 229, 1) 100%
+      );
+      font-family: "Poppins", sans-serif;
+      color: white;
+    }
+  }
+  ion-content {
+    --background: #f1f5f8;
+    ion-item {
+      --background: #f1f5f8;
+      ion-label {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+      }
+    }
+  }
+  ion-footer {
+    ion-item {
+      --background: linear-gradient(
+        90deg,
+        rgba(43, 90, 148, 1) 0%,
+        rgba(45, 112, 229, 1) 35%,
+        rgba(45, 112, 229, 1) 100%
+      );
+      font-family: "Poppins", sans-serif;
+      color: white;
+      font-weight: 500;
+      --color-hover: #F7D050;
+    }
+  }
 }
