@@ -26,7 +26,7 @@
           <ion-icon name="happy-outline"></ion-icon>
           <ion-item>
             <ion-label position="floating">NOMBRE</ion-label>
-            <ion-input type="text" formControlName="name"></ion-input>
+            <ion-input type="text" formControlName="firstName"></ion-input>
           </ion-item>
           <ion-note slot="error" *ngIf="(firstName.dirty || firstName.touched) && firstName.errors">El nombre debe tener un mínimo de 4 caracteres</ion-note>
         </div>
@@ -36,14 +36,6 @@
             <ion-label position="floating">CONTRASEÑA</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
             <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">La contraseña debe tener un mínimo de 6 caracteres</ion-note>
-          </ion-item>
-        </div>
-        <div class="form-input">
-          <ion-icon name="lock-closed-outline"></ion-icon>
-          <ion-item>
-            <ion-label position="floating">CONFIRMAR CONTRASEÑA</ion-label>
-            <ion-input type="password" formControlName="confirmPassword"></ion-input>
-            <ion-note slot="error" *ngIf="credentials.errors?.['passwordsDontMatch']">Las contraseñas no coinciden</ion-note>
           </ion-item>
         </div>
       </div>

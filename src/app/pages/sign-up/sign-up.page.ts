@@ -18,21 +18,6 @@ import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/users.service';
 import { switchMap } from 'rxjs/operators';
 import { ToastController } from '@ionic/angular';
-
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function passwordsMatchValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
-
-    if (password && confirmPassword && password !== confirmPassword) {
-      return { passwordsDontMatch: true };
-    } else {
-      return null;
-    }
-  };
-}
-
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -75,16 +60,13 @@ export class SignUpPage implements OnInit {
   }
 
   ngOnInit() {
-    this.credentials = this.fb.group(
-      {
-        email: ['', [Validators.required, Validators.email]],
-        username: ['', [Validators.required, Validators.minLength(4)]],
-        name: ['', [Validators.required, Validators.minLength(4)]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required]],
-      },
-      { validators: passwordsMatchValidator() }
-    );
+    this.credentials = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(4)]],
+      firstName: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+    });
   }
 
   async signup() {
@@ -94,22 +76,24 @@ export class SignUpPage implements OnInit {
     }
     const loading = await this.loadingCtrl.create();
     await loading.present();
-    const {username, firstName} = this.credentials.value;
+    const { username, firstName } = this.credentials.value;
     const user = this.authService
       .signup(email, password)
       .pipe(
         switchMap(({ user: { uid } }) =>
           this.userService.addUser({
-            uid, email, firstName,username
+            uid,
+            email,
+            firstName,
+            username,
           })
         )
-      ).subscribe(() => {
+      )
+      .subscribe(() => {
         this.router.navigate(['/home']);
       });
     await loading.dismiss();
-    if (user) {
-      // this.router.navigateByUrl('/home', { replaceUrl: true });
-    } else {
+    if (!user) {
       this.showAlert('¡Ha ocurrido un error', 'Por favor, inténtelo de nuevo');
     }
   }
