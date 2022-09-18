@@ -17,7 +17,7 @@ ion-content {
   border-top-right-radius: 46px;
 
   .header {
-    margin-top: 20px;
+    margin-top: 5px;
     h1 {
       font-size: 1.6rem;
       font-weight: bolder;
@@ -73,17 +73,12 @@ ion-content {
       width: 100%;
       font-weight: bold;
     }
-    p {
+    .login-button {
       margin-top: 15px;
       font-size: 0.8rem;
       color: #7b7b7b;
-    }
-    .login-button {
-      --border-color: #b4b4b4;
-      -color: #000000;
-      font-weight: bold;
-      margin-top: 3px;
-      width: 100%;
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
     }
   }
 }
