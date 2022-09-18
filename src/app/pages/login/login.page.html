@@ -12,14 +12,14 @@
             <ion-label position="floating">EMAIL</ion-label>
             <ion-input type="email" formControlName="email"></ion-input>
           </ion-item>
-          <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">El email es inválido</ion-note>
+          <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors" color="danger">El email es inválido</ion-note>
         </div>
         <div class="form-input">
           <ion-icon name="lock-closed-outline"></ion-icon>
           <ion-item>
             <ion-label position="floating">PASSWORD</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
-            <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">La contraseña debe tener un mínimo de 6 caracteres</ion-note>
+            <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors" color="danger">La contraseña debe tener un mínimo de 6 caracteres</ion-note>
           </ion-item>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <ion-button class="login-button" mode="ios" type="submit">
           Iniciar sesión
         </ion-button>
-        <p routerLink="forget-pass">¿Olvidaste la contraseña? </p>
+        <ion-button fill="clear" routerLink="forget-pass" class="forget-pass">¿Olvidaste la contraseña? </ion-button>
         <ion-button class="signup-button" size="large" fill="outline" routerLink="/sign-up" mode="ios">
           Registrarse
         </ion-button>

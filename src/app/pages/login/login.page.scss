@@ -32,7 +32,6 @@ ion-content {
   .login-form{
     .form-input{
       position: relative;
-      margin-bottom: 10px;
       ion-item::part(native){
         padding-left: 0;
       }
@@ -49,12 +48,16 @@ ion-content {
         font-weight: bolder;
         font-size: 0.8rem;
         top: 3px;
+        font-family: "Poppins", sans-serif;
       }
       ion-input{
         font-size: 0.9rem;
         --padding-start: 36px;
         --padding-top: 36px;
         color: #7b7b7b;
+      }
+      ion-note{
+        font-size: 12px;
       }
     }
   }
@@ -65,9 +68,9 @@ ion-content {
       width: 100%;
       font-weight: bold;
     }
-    p{
-      margin-top: 15px;
-      font-size: 1rem;
+    .forget-pass{
+      margin-top: 10px;
+      font-size: 0.8rem;
       color: #7b7b7b;
     }
     .signup-button{
@@ -79,3 +82,4 @@ ion-content {
     }
   }
 }
+
