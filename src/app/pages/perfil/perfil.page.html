@@ -169,7 +169,7 @@
             <ion-icon name="car-outline"></ion-icon>
             Chofer
           </ion-label>
-          <ion-toggle [checked]="profile.esChofer" color="warning" slot="end"></ion-toggle>
+          <ion-toggle color="warning" slot="end" [(ngModel)]="profile.esChofer" (ngModelChange)="esChofer($event)"></ion-toggle>
         </ion-item>
 
       </ion-list>

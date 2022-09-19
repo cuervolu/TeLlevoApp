@@ -60,6 +60,18 @@ export class UserService {
     return docData(userDocRef);
   }
 
+  async esChofer(esChofer: boolean) {
+    const user = this.auth.currentUser;
+    const refD = doc(this.firestore, 'users', user.uid);
+    try {
+      await from(updateDoc(refD, { esChofer }));
+      return true;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
   async uploadImage(cameraFile: Photo) {
     const user = this.auth.currentUser;
     const path = `uploads/${user.uid}/profile.png`;

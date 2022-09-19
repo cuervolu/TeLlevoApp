@@ -51,7 +51,6 @@ export class PerfilPage implements OnInit {
       this.loading = false;
       this.profileForm.patchValue(this.profile);
     });
-    console.log(this.profile);
   }
 
   setOpen(isOpen: boolean) {
@@ -168,6 +167,16 @@ export class PerfilPage implements OnInit {
     const { role } = await alert.onDidDismiss();
     this.roleMessage = `Dismissed with role: ${role}`;
   }
+
+  esChofer(value: boolean) {
+    const esChofer = this.userService.esChofer(value);
+    if (esChofer) {
+      this.presentToast('Se ha actualizado correctamente', 'success');
+    } else {
+      this.presentToast('No se ha podido actualizar', 'danger');
+    }
+  }
+
   async presentToast(message: string, color: string) {
     const toast = await this.toastCtrl.create({
       message,
