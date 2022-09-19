@@ -94,7 +94,7 @@ export class SignUpPage implements OnInit {
       )
       .subscribe(() => {
         if (user) {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/tabs/home']);
         } else {
           this.showAlert(
             '¡Ha ocurrido un error',

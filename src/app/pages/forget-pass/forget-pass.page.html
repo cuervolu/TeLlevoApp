@@ -1,43 +1,29 @@
-<ion-content class="ion-padding forgetPass-full">
-  <ion-grid fixed>
-    <ion-row class="ion-align-items-center">
-      <ion-col size="12" class="ion-text-center">
-        <img src="/assets/tellevo.png">
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12" class="ion-text-center">
-
-        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" class="loginForm">
-          <ion-list class="list-ios">
-            <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input type="email" placeholder="Email" name="email"
-                pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" [(ngModel)]="usuario.email" required>
-              </ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Nueva Contraseña</ion-label>
-              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password" required>
-              </ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Confirmar Contraseña</ion-label>
-              <ion-input type="password" placeholder="Confirmar Contraseña" name="confirmPassword" [(ngModel)]="usuario.confirmPassword" required>
-              </ion-input>
-            </ion-item>
-            <ion-button [disabled]="formulario.invalid" type="submit" fill="solid" color="warning" type="ios">
-              Restablecer
-            </ion-button>
-            <!-- <p class="forgetPass" (click)="onForgetPass()">¿Olvidaste la contraseña?</p> -->
-          </ion-list>
-        </form>
-        <ion-button fill="outline" color="primary" type="ios" (click)="exit()">
-          Cancelar
+<ion-content>
+  <div class="login-section ion-padding">
+    <div class="header ion-padding">
+      <h1>Recuperación de contraseña</h1>
+      <p>Se te enviará un email a tu correo para restablecer tu contraseña</p>
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="credentials">
+      <div class="login-form">
+        <div class="form-input">
+          <ion-icon name="mail-outline"></ion-icon>
+          <ion-item>
+            <ion-label position="floating">EMAIL</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+          <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors" color="danger">El email es inválido</ion-note>
+        </div>
+      </div>
+      <div class="action-buttons ion-padding">
+        <ion-button class="forgetPassButton" mode="ios" type="submit" [disabled]="!credentials.valid">
+          Enviar email
         </ion-button>
-        <!-- <p class="signUp">¿No tienes una cuenta? <b (click)="onSignUp()">Regístrate</b></p> -->
-      </ion-col>
-    </ion-row>
+        <ion-button class="login-button" fill="clear" routerLink="/login" mode="ios">
+          Volver al login
+        </ion-button>
+      </div>
+    </form>
+  </div>
 
-  </ion-grid>
 </ion-content>

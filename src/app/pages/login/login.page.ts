@@ -50,7 +50,7 @@ export class LoginPage implements OnInit {
     const user = await this.authService.login(this.credentials.value);
     await loading.dismiss();
     if (user) {
-      this.router.navigateByUrl('/home', { replaceUrl: true });
+      this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
     } else {
       this.showAlert('Ha ocurrido un error', 'Por favor, inténtelo de nuevo');
     }
