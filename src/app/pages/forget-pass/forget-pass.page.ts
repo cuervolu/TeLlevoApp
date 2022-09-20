@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class ForgetPassPage implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private menuCtrl: MenuController,
+    private alertCtrl: AlertController
   ) {}
 
   get email() {
@@ -32,6 +33,12 @@ export class ForgetPassPage implements OnInit {
 
   async onSubmit(){
     const {email} = this.credentials.value;
-    this.authService.forgetPassword(email).then(() => this.router.navigate(['/']));
+    const alert = await this.alertCtrl.create({
+        header: 'Su solicitud se ha realizado con éxito',
+        message: 'Se le enviará un email con los pasos a seguir',
+        buttons: ['OK']
+      });
+      await alert.present();
+    this.authService.forgetPassword(email).then(() => this.router.navigate(['/login']));
   }
 }
