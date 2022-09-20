@@ -48,7 +48,7 @@ ion-content {
           position: absolute;
           margin-left: 35px;
           font-weight: bolder;
-          font-size: 0.8rem;
+          font-size: 0.6rem;
           top: 3px;
           font-family: "Poppins", sans-serif;
         }
@@ -60,9 +60,10 @@ ion-content {
         }
       }
       ion-note{
+        font-size: 12px;
         color: #EB4C61;
-        font-family: "Poppins", sans-serif;
-        font-weight: 200;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
       }
     }
   }

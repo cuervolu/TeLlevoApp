@@ -19,6 +19,14 @@ import { UserService } from '../../services/users.service';
 import { switchMap } from 'rxjs/operators';
 import { ToastController } from '@ionic/angular';
 
+const checkPasswords: ValidatorFn = (
+  group: AbstractControl
+): ValidationErrors | null => {
+  const password = group.get('password').value;
+  const confirmPassword = group.get('confirmPassword').value;
+
+  return password === confirmPassword ? null : { notEqual: true };
+};
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -61,12 +69,16 @@ export class SignUpPage implements OnInit {
   }
 
   ngOnInit() {
-    this.credentials = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.minLength(4)]],
-      firstName: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+    this.credentials = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        username: ['', [Validators.required, Validators.minLength(4)]],
+        firstName: ['', [Validators.required, Validators.minLength(4)]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: [''],
+      },
+      { validators: checkPasswords }
+    );
   }
 
   async signup() {

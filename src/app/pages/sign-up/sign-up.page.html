@@ -6,38 +6,72 @@
     </div>
     <form (ngSubmit)="signup()" [formGroup]="credentials">
       <div class="login-form">
-        <div class="form-input">
-          <ion-icon name="mail-outline"></ion-icon>
-          <ion-item>
-            <ion-label position="floating">EMAIL</ion-label>
-            <ion-input type="email" formControlName="email"></ion-input>
-          </ion-item>
-          <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">El email es inválido</ion-note>
-        </div>
-        <div class="form-input">
-          <ion-icon name="person-outline"></ion-icon>
-          <ion-item>
-            <ion-label position="floating">USUARIO</ion-label>
-            <ion-input type="text" formControlName="username"></ion-input>
-          </ion-item>
-          <ion-note slot="error" *ngIf="(username.dirty || username.touched) && username.errors">El nombre de usuario es inválido</ion-note>
-        </div>
-        <div class="form-input">
-          <ion-icon name="happy-outline"></ion-icon>
-          <ion-item>
-            <ion-label position="floating">NOMBRE</ion-label>
-            <ion-input type="text" formControlName="firstName"></ion-input>
-          </ion-item>
-          <ion-note slot="error" *ngIf="(firstName.dirty || firstName.touched) && firstName.errors">El nombre debe tener un mínimo de 4 caracteres</ion-note>
-        </div>
-        <div class="form-input">
-          <ion-icon name="lock-closed-outline"></ion-icon>
-          <ion-item>
-            <ion-label position="floating">CONTRASEÑA</ion-label>
-            <ion-input type="password" formControlName="password"></ion-input>
-            <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">La contraseña debe tener un mínimo de 6 caracteres</ion-note>
-          </ion-item>
-        </div>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="6">
+              <div class="form-input">
+                <ion-icon name="mail-outline"></ion-icon>
+                <ion-item>
+                  <ion-label position="floating">EMAIL</ion-label>
+                  <ion-input type="email" formControlName="email"></ion-input>
+                </ion-item>
+                <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">
+                  El email es inválido
+                </ion-note>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="form-input">
+                <ion-icon name="person-outline"></ion-icon>
+                <ion-item>
+                  <ion-label position="floating">USUARIO</ion-label>
+                  <ion-input type="text" formControlName="username"></ion-input>
+                </ion-item>
+                <ion-note slot="error" *ngIf="(username.dirty || username.touched) && username.errors">El nombre de
+                  usuario es inválido</ion-note>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <div class="form-input">
+                <ion-icon name="happy-outline"></ion-icon>
+                <ion-item>
+                  <ion-label position="floating">NOMBRE</ion-label>
+                  <ion-input type="text" formControlName="firstName"></ion-input>
+                </ion-item>
+                <ion-note slot="error" *ngIf="(firstName.dirty || firstName.touched) && firstName.errors">Debe tener un
+                  mínimo de 4 caracteres</ion-note>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="form-input">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <ion-item>
+                  <ion-label position="floating">CONTRASEÑA</ion-label>
+                  <ion-input type="password" formControlName="password"></ion-input>
+                  <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">
+                    Debe tener un mínimo de 6 caracteres</ion-note>
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <div class="form-input">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <ion-item>
+                  <ion-label position="floating">CONFIRMAR CONTRASEÑA</ion-label>
+                  <ion-input type="password" formControlName="confirmPassword"></ion-input>
+                </ion-item>
+                <ion-note slot="error" *ngIf="credentials.hasError('notEqual') && confirmPassword.touched"
+                  color="danger">
+                  Las contraseñas no coinciden</ion-note>
+              </div>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
       </div>
       <div class="action-buttons ion-padding">
         <ion-button class="signup-button" mode="ios" type="submit" [disabled]="!credentials.valid">
