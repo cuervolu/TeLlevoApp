@@ -64,8 +64,14 @@ export class SignUpPage implements OnInit {
   get terminos() {
     return this.credentials.get('terminos');
   }
+
+  //Desactiva el menú en la página
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
+  }
+  //Activa el menú en la siguiente página
+  ionViewDidLeave() {
+    this.menuCtrl.enable(true);
   }
 
   ngOnInit() {

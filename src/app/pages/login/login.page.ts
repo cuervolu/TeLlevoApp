@@ -40,8 +40,13 @@ export class LoginPage implements OnInit {
     });
   }
 
+  //Desactiva el menú en la página
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
+  }
+  //Activa el menú en la siguiente página
+  ionViewDidLeave() {
+    this.menuCtrl.enable(true);
   }
 
   async login() {
