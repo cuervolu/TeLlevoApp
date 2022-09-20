@@ -32,6 +32,6 @@ export class ForgetPassPage implements OnInit {
 
   async onSubmit(){
     const {email} = this.credentials.value;
-    this.authService.resetPassword(email).then(() => this.router.navigate(['/']));
+    this.authService.forgetPassword(email).then(() => this.router.navigate(['/']));
   }
 }

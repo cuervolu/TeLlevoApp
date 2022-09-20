@@ -7,7 +7,7 @@ import {
   signOut,
   UserCredential,
 } from '@angular/fire/auth';
-import { sendPasswordResetEmail } from 'firebase/auth';
+import { confirmPasswordReset, sendPasswordResetEmail } from 'firebase/auth';
 import { from, Observable } from 'rxjs';
 
 @Injectable({
@@ -39,8 +39,22 @@ export class AuthService {
     }
   }
 
-  async resetPassword(email: string){
-    return await sendPasswordResetEmail(this.auth,email);
+  async forgetPassword(email: string) {
+    return await sendPasswordResetEmail(this.auth, email);
+  }
+
+  async resetPassword(password: string, oobCode: string) {
+    try {
+      const reset = await await confirmPasswordReset(
+        this.auth,
+        oobCode,
+        password
+      );
+      return reset;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   logout() {

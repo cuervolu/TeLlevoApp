@@ -1,0 +1,78 @@
+ion-content {
+  font-family: "Poppins", sans-serif;
+  --background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)),
+    url("/assets/resetPassword.jpg") no-repeat center center / cover;
+}
+.login-section {
+  height: 80vh;
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  margin: auto;
+  border-top-left-radius: 46px;
+  border-top-right-radius: 46px;
+
+  .header {
+    margin-top: 20px;
+    h1 {
+      font-size: 1.6rem;
+      font-weight: bolder;
+      color: black !important;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #7b7b7b !important;
+    }
+  }
+  .login-form {
+    .form-input {
+      position: relative;
+      ion-item::part(native) {
+        padding-left: 0;
+      }
+      ion-icon {
+        position: absolute;
+        top: 37px;
+        z-index: 2;
+        font-size: 1.2rem;
+        left: 5px;
+      }
+      ion-label {
+        position: absolute;
+        margin-left: 35px;
+        font-weight: bolder;
+        font-size: 0.8rem;
+        top: 3px;
+        font-family: "Poppins", sans-serif;
+      }
+      ion-input {
+        font-size: 0.9rem;
+        --padding-start: 36px;
+        --padding-top: 36px;
+        color: #7b7b7b;
+      }
+      ion-note {
+        font-size: 12px;
+      }
+    }
+  }
+  .action-buttons {
+    text-align: center;
+    .resetPasswordButton {
+      --background: #f9b801;
+      width: 100%;
+      font-weight: bold;
+    }
+    .login-button {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #7b7b7b;
+      text-decoration: underline;
+    }
+  }
+}
