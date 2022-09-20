@@ -47,14 +47,14 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthPageModule),
+  },
+  {
     path: '',
     redirectTo: 'inicio',
     pathMatch: 'full'
   },
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthPageModule),
-  }
 ];
 
 @NgModule({
