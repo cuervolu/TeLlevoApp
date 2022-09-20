@@ -11,7 +11,8 @@ export const environment = {
     authDomain: 'tellevoapp-003d.firebaseapp.com',
     messagingSenderId: '644568799794',
   },
-  production: false
+  mapsKey: 'AIzaSyAQbm3-836j1pEBTPlmu9oeOK2BWFNIEBM',
+  production: false,
 };
 
 /*
