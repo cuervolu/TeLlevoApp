@@ -8,3 +8,14 @@ capacitor-google-map {
   width: 100%;
   height: 100vh;
 }
+
+ion-content{
+  // overwrite inline styles
+  --offset-bottom: auto!important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}

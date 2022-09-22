@@ -1,17 +1,4 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button menu="first"></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Explorar</ion-title>
-  </ion-toolbar>
-  <ion-searchbar placeholder="Buscar aquí" animated inputmode="text" autocomplete [debounce]="250" mode="ios"
-    color="light"></ion-searchbar>
-</ion-header>
-<ion-content class="explore-full">
-  <!-- <div class="map">
-  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13293.065613200599!2d-70.5785865!3d-33.59839164577581!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x893f58a1479b8f82!2sDuoc%20UC%3A%20Sede%20Puente%20Alto!5e0!3m2!1ses-419!2scl!4v1661648246389!5m2!1ses-419!2scl" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div> -->
+<ion-content class="explore-full" fixed>
   <div class="container">
     <capacitor-google-map #map></capacitor-google-map>
   </div>
