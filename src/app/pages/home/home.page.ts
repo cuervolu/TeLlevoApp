@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tap, map } from 'rxjs/operators';
 import { UserService } from 'src/app/services/users.service';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,9 @@ export class HomePage implements OnInit {
   user$ = this.userService.currentUserProfile$;
   loading = false;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private menuCtrl: MenuController) {
+    this.menuCtrl.enable(true);
+  }
 
   ngOnInit() {
     //Para mostrar el skeleton text, this.loading se convierte en verdadero

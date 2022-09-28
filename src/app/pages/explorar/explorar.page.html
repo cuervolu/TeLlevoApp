@@ -1,6 +1,13 @@
-<ion-content class="explore-full" fixed>
-  <div class="container">
-    <capacitor-google-map #map></capacitor-google-map>
-  </div>
+<ion-content fixed>
+  <ion-toolbar slot="fixed" color="translucent">
+    <ion-searchbar animated="true" show-clear-button="focus" placeholder="Buscar aquí..." mode="ios" color="light" autocomplete autocorrect (ionChange)="onSearch($event)" animated [debounce]="250"></ion-searchbar>
+  </ion-toolbar>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" (click)="navModal(address)">
+    <ion-fab-button>
+      <ion-icon name="menu-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div id="map"></div>
+
 
 </ion-content>

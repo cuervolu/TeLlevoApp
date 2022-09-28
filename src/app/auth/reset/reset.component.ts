@@ -38,6 +38,7 @@ export class ResetComponent {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) {
+    this.menuCtrl.enable(false);
     this.credentials = this.fb.group(
       {
         password: ['', [Validators.required, Validators.minLength(6)]],

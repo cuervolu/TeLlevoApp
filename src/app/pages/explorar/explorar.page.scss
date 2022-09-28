@@ -1,21 +1,25 @@
-.explore-full{
-  height: 100% !important;
-  --background: white !important;
-}
-
-capacitor-google-map {
-  display: inline-block;
-  width: 100%;
-  height: 100vh;
-}
+// capacitor-google-map {
+//   display: inline-block;
+//   width: 100%;
+//   height: 100vh;
+// }
 
 ion-content{
-  // overwrite inline styles
-  --offset-bottom: auto!important;
-  --overflow: hidden;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    display: none;
+  ion-toolbar {
+    --background-color: transparent;
+    --ion-color-base: transparent;
+    ion-searchbar{
+      --background: transparent;
+      --border-radius: 50px;
+      --box-shadow: 5px 10px 8px #888888;
+      // margin-top: 50px;
+      // width: 50vh;
+      margin: 50px 0 auto;
+    }
   }
-  scrollbar-width: none;
+}
+
+#map{
+  width: 100%;
+  height: 100%;
 }

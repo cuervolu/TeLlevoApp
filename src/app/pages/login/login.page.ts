@@ -23,7 +23,9 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private menuCtrl: MenuController,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this.menuCtrl.enable(false);
+  }
 
   get email() {
     return this.credentials.get('email');
@@ -44,10 +46,10 @@ export class LoginPage implements OnInit {
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
   }
-  //Activa el menú en la siguiente página
-  ionViewDidLeave() {
-    this.menuCtrl.enable(true);
-  }
+  // //Activa el menú en la siguiente página
+  // ionViewDidLeave() {
+  //   this.menuCtrl.enable(true);
+  // }
 
   async login() {
     const loading = await this.loadingCtrl.create();

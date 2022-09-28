@@ -4,11 +4,12 @@
       <h1>¡Crea una cuenta!</h1>
       <p>Y organízate con tus compañeros</p>
     </div>
-    <form (ngSubmit)="signup()" [formGroup]="credentials">
-      <div class="login-form">
-        <ion-grid fixed>
-          <ion-row>
-            <ion-col size="6">
+
+    <ion-slides #signupSlider [options]="{ allowTouchMove: false }">
+      <ion-slide>
+        <form [formGroup]="slideOneForm">
+          <div class="login-form">
+            <ion-list>
               <div class="form-input">
                 <ion-icon name="mail-outline"></ion-icon>
                 <ion-item>
@@ -19,8 +20,6 @@
                   El email es inválido
                 </ion-note>
               </div>
-            </ion-col>
-            <ion-col size="6">
               <div class="form-input">
                 <ion-icon name="person-outline"></ion-icon>
                 <ion-item>
@@ -30,21 +29,47 @@
                 <ion-note slot="error" *ngIf="(username.dirty || username.touched) && username.errors">El nombre de
                   usuario es inválido</ion-note>
               </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="6">
+            </ion-list>
+          </div>
+        </form>
+      </ion-slide>
+
+      <ion-slide>
+        <form [formGroup]="slideTwoForm">
+          <div class="login-form">
+            <ion-list>
               <div class="form-input">
                 <ion-icon name="happy-outline"></ion-icon>
                 <ion-item>
                   <ion-label position="floating">NOMBRE</ion-label>
                   <ion-input type="text" formControlName="firstName"></ion-input>
                 </ion-item>
-                <ion-note slot="error" *ngIf="(firstName.dirty || firstName.touched) && firstName.errors">Debe tener un
-                  mínimo de 4 caracteres</ion-note>
+                <ion-note slot="error" *ngIf="(firstName.dirty || firstName.touched) && firstName.errors">Mínimo de 4 caracteres y un máximo de 30</ion-note>
               </div>
-            </ion-col>
-            <ion-col size="6">
+              <div class="form-input">
+                <ion-icon name="happy-outline"></ion-icon>
+                <ion-item>
+                  <ion-label position="floating">APELLIDO</ion-label>
+                  <ion-input type="text" formControlName="lastName"></ion-input>
+                </ion-item>
+                <ion-note slot="error" *ngIf="(lastName.dirty || lastName.touched) && lastName.errors">Mínimo de 4 caracteres y un máximo de 30</ion-note>
+              </div>
+              <div class="form-input">
+                <ion-item>
+                  <ion-select interface="popover" placeholder="Selecciona tu sede" mode="ios" formControlName="sede">
+                    <ion-select-option [value]="sede.nombre" *ngFor="let sede of sedes">{{sede.nombre}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
+            </ion-list>
+          </div>
+        </form>
+      </ion-slide>
+
+      <ion-slide>
+        <form [formGroup]="slideThreeForm" (ngSubmit)="signup()">
+          <div class="login-form">
+            <ion-list>
               <div class="form-input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <ion-item>
@@ -54,32 +79,40 @@
                     Debe tener un mínimo de 6 caracteres</ion-note>
                 </ion-item>
               </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12">
               <div class="form-input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <ion-item>
                   <ion-label position="floating">CONFIRMAR CONTRASEÑA</ion-label>
                   <ion-input type="password" formControlName="confirmPassword"></ion-input>
                 </ion-item>
-                <ion-note slot="error" *ngIf="credentials.hasError('notEqual') && confirmPassword.touched"
+                <ion-note slot="error" *ngIf="slideThreeForm.hasError('notEqual') && confirmPassword.touched"
                   color="danger">
                   Las contraseñas no coinciden</ion-note>
               </div>
-            </ion-col>
-          </ion-row>
+            </ion-list>
+          </div>
+          <div class="action-buttons ion-padding">
+            <ion-button class="signup-button" mode="ios" type="submit" [disabled]="!slideThreeForm.valid && !slideTwoForm.valid && !slideOneForm.valid ">
+              Registrarse
+            </ion-button>
 
-        </ion-grid>
-      </div>
-      <div class="action-buttons ion-padding">
-        <ion-button class="signup-button" mode="ios" type="submit" [disabled]="!credentials.valid">
-          Registrarse
+          </div>
+
+        </form>
+      </ion-slide>
+    </ion-slides>
+    <div class="slidesBtn" style="text-align:center">
+        <ion-button (click)="prev()" slot="start" fill="clear" mode="ios">
+          <ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>
+          Prev
         </ion-button>
-        <ion-button routerLink="/login" fill="clear" class="login-button">¿Ya tienes una cuenta?</ion-button>
-      </div>
-    </form>
+        <ion-button (click)="next()" slot="end" fill="clear" mode="ios">
+          <ion-icon slot="end" name="arrow-forward-circle-outline"></ion-icon>
+          Next
+        </ion-button>
+    </div>
+    <div class="action-buttons ion-padding">
+      <ion-button routerLink="/login" fill="clear" class="login-button" mode="ios">¿Ya tienes una cuenta?</ion-button>
+    </div>
   </div>
-
 </ion-content>

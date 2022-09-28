@@ -6,4 +6,5 @@ export interface UserProfile {
   lastName?: string;
   imageUrl?: string;
   esChofer?: boolean;
+  sede?: string;
 }

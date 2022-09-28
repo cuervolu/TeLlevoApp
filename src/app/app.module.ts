@@ -13,7 +13,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { ComponentsModule } from './components/components.module';
-import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +28,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
   ],
-  providers: [NativeGeocoder,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [Geolocation,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

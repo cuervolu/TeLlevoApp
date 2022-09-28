@@ -16,10 +16,8 @@ import {
 } from '@angular/fire/storage';
 import { UserProfile } from '../models/user.interface';
 import { from, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { getStorage } from '@angular/fire/storage';
-import { deleteObject } from 'firebase/storage';
 import { deleteField } from 'firebase/firestore';
 
 @Injectable({

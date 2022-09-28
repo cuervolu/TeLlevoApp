@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap, Marker } from '@capacitor/google-maps';
-import { environment } from '../../../environments/environment';
-import { Geolocation } from '@capacitor/geolocation';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { MapModalComponent } from '../../components/map-modal/map-modal.component';
 import { LocationService } from '../../services/location.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+declare let google;
 
 @Component({
   selector: 'app-explorar',
@@ -14,72 +13,94 @@ import { LocationService } from '../../services/location.service';
 })
 export class ExplorarPage implements OnInit {
   @ViewChild('map') mapRef: ElementRef;
-  map: GoogleMap;
-  lat: number;
-  lng: number;
+  //Latitud y Longitud de Duoc UC: Sede Puente Alto
+
+  lat: any =-33.59767508016667;
+  lng: any= -70.57894225397776;
+
+  query: string;
+  //Directions
+  directionsService = new google.maps.DirectionsService();
+  directionsDisplay = new google.maps.DirectionsRenderer();
+
+  origin = {lat: -33.6080176, lng: -70.5809917};
+
+  destination = {lat: -33.6015076, lng:-70.5957617};
+
+  address: any;
 
   constructor(
     private modalCtrl: ModalController,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private loadingCtrl: LoadingController,
+    private geolocation: Geolocation
   ) {}
 
   ngOnInit() {
-    this.fetchLocation();
+    this.loadMap();
   }
 
-  ionViewDidEnter() {
-    this.createMap();
-  }
-  async createMap() {
-    this.map = await GoogleMap.create({
-      id: 'my-map',
-      apiKey: environment.mapsKey,
-      element: this.mapRef.nativeElement,
-      config: {
-        center: {
-          lat: this.lat,
-          lng: this.lng,
-        },
-        zoom: 8,
-      },
-    });
-    this.addMarker();
-  }
-
-  async fetchLocation() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    this.lat = coordinates.coords.latitude;
-    this.lng = coordinates.coords.longitude;
-    this.locationService.geocode(this.lat,this.lng).subscribe(async (result) => {
-      this.navModal(result);
-    });
-  }
-
-  async addMarker() {
-    const markers: Marker[] = [
-      {
-        coordinate: {
-          lat: this.lat,
-          lng: this.lng,
-        },
-        title: 'Estás aquí',
-      },
-    ];
-    await this.map.addMarkers(markers);
-    // this.map.setOnMarkerClickListener(async (marker) => {
-    //   this.navModal(marker);
-    // });
-  }
   async navModal(address: any) {
     const modal = await this.modalCtrl.create({
       component: MapModalComponent,
       componentProps: {
-        address
+        address,
       },
-      breakpoints: [0, 0.3],
-      initialBreakpoint: 0.3,
+      breakpoints: [0, 0.5, 1],
+      initialBreakpoint: 0.5,
+      backdropBreakpoint: 0.5,
       mode: 'ios',
+      backdropDismiss: false,
     });
     modal.present();
+  }
+
+
+  async loadMap(){
+    //LoadingCtrl
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando mapa...',
+      spinner: 'circles',
+      cssClass: 'custom-loading',
+      mode: 'ios',
+    });
+    loading.present();
+
+    //Conseguir ubicación del usuario
+    const userLocation = await this.geolocation.getCurrentPosition();
+    const duocPalto = {
+      lat: this.lat,
+      lng: this.lng,
+    };
+
+    //Cargar Mapa
+    const mapElement: HTMLElement = document.getElementById('map');
+    const map = new google.maps.Map(mapElement,{
+      center: duocPalto,
+      zoom: 12,
+      mapTypeControl: false,
+      streetViewControl: false,
+      keyboardShortcuts: false,
+      fullscreenControl: false,
+      mapId: '9a411300f76cb602',
+    });
+
+    google.maps.event.addListenerOnce(map,'idle', () => {
+      console.log('Mapa Cargado');
+      loading.dismiss();
+    });
+    const marker = new google.maps.Marker({
+      position: duocPalto,
+      map,
+    });
+    const request = {
+      query: this.query,
+      fields: ['name', 'geometry'],
+    };
+  }
+
+  onSearch(event){
+    this.query = event.detail.value;
+    console.log(this.query);
   }
 }
