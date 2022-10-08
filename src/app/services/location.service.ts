@@ -1,42 +1,60 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { retry } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 
 declare let google;
+interface LatLng {
+  lat: number;
+  lng: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
-  httpOptions = {
-    headers: new HttpHeaders({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'Content-Type': 'applications/json',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'Access-Control-Allow-Origin': '*',
-    }),
-  };
+  currentPosition: LatLng;
 
-  searchPlaceUrl = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
+  constructor() {}
 
-  constructor(private http: HttpClient) {}
-
-  geocode(latitude: number, longitude: number): Observable<any> {
+  reverseGeocode(address: string): Observable<any> {
     return new Observable<any>((observer) => {
       const geocoder = new google.maps.Geocoder();
-      const latLng = new google.maps.LatLng(latitude, longitude);
-      geocoder.geocode({ latLng }, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK) {
-          observer.next(results[0].formatted_address);
-        } else {
-          observer.error(status);
+      geocoder.geocode(
+        {
+          address,
+        },
+        (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            observer.next(results[0].geometry.location);
+            observer.complete();
+          } else {
+            console.log(
+              'Geocode no tuvo éxito por la siguiente razón: ' + status
+            );
+          }
         }
-        observer.complete();
-      });
+      );
     });
   }
 
-
+  currentLocation(): Observable<any>{
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const pos  = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          return pos;
+        },
+        (e) => {
+          console.log(e);
+          return null;
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      console.log('Browser doesnt support Geolocation');
+      return null;
+    }
+  }
 }

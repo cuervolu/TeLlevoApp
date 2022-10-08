@@ -19,3 +19,10 @@ ion-content{
   height: 100%;
 }
 
+#indicators {
+  padding: 16px;
+  height: 50%;
+  width: 100%;
+  overflow-y: auto;
+  display: block;
+}

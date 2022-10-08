@@ -30,7 +30,6 @@ export class PerfilPage implements OnInit {
     firstName: [''],
     lastName: [''],
   });
-  // user$ = this.userService.currentUserProfile$;
 
   handlerMessage = '';
   roleMessage = '';
