@@ -260,6 +260,7 @@ export class ExplorarPage implements OnInit {
 
   redirectTo(name: string) {
     this.modal.dismiss();
+    this.menuCtrl.enable(true);
     this.router.navigateByUrl(`/tabs/${name}`);
   }
 
