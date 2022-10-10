@@ -220,6 +220,12 @@
             <ion-label position="floating">Email</ion-label>
             <ion-input type="email" clearInput formControlName="email"></ion-input>
           </ion-item>
+          <ion-item mode="ios" class="editProfile">
+            <ion-label position="floating">Sede</ion-label>
+            <ion-select interface="popover" placeholder="Selecciona tu sede" mode="ios" formControlName="sede">
+              <ion-select-option [value]="sede.nombre" *ngFor="let sede of sedes">{{sede.nombre}}</ion-select-option>
+            </ion-select>
+          </ion-item>
         </ion-content>
       </ng-template>
     </ion-modal>

@@ -16,9 +16,9 @@ import {
   ToastController,
 } from '@ionic/angular';
 import { AuthService } from '../../auth/auth.service';
-import { UserService } from '../../services/users.service';
+import { UserService, DataService } from '../../services';
 import { switchMap } from 'rxjs/operators';
-import { DataService } from '../../services/data.service';
+
 
 const checkPasswords: ValidatorFn = (
   group: AbstractControl

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from '../../services';
+import { UserService, DataService } from '../../services';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ActionSheetController } from '@ionic/angular';
@@ -23,12 +23,15 @@ export class PerfilPage implements OnInit {
   profile = null;
   loading = false;
   isModalOpen = false;
+  sedes = [];
+  sedeSeleccionada: string;
   profileForm = this.fb.group({
     uid: [''],
     email: [''],
     username: [''],
     firstName: [''],
     lastName: [''],
+    sede: [''],
   });
 
   handlerMessage = '';
@@ -36,6 +39,7 @@ export class PerfilPage implements OnInit {
 
   constructor(
     private userService: UserService,
+    private dataService: DataService,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public actionSheetCtrl: ActionSheetController,
@@ -52,10 +56,13 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  //Abre modal de modificación de datos de usuario
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
+    this.getSedes();
   }
 
+  //Modifica los datos de usuarios junto a Firebase
   async confirm() {
     const { uid, ...data } = this.profileForm.value;
     if (!uid) {
@@ -185,5 +192,11 @@ export class PerfilPage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  getSedes() {
+    this.dataService.getSedes().subscribe((res) => {
+      this.sedes = res;
+    });
   }
 }
