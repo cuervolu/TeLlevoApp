@@ -247,6 +247,7 @@ export class ExplorarPage implements OnInit {
           handler: () => {
             this.directionsDisplay.setMap(null);
             this.modal.setCurrentBreakpoint(0.25);
+            this.isDriving = false;
             this.presentToast('Viaje cancelado exitosamente', 'success', 'checkmark-circle-outline');
           },
         },
