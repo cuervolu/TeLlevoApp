@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Photo } from '@capacitor/camera';
 import {
+  collectionData,
   doc,
   docData,
   Firestore,
@@ -18,7 +19,7 @@ import { UserProfile } from '../models/user.interface';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { deleteField } from 'firebase/firestore';
+import { deleteField, collection, query } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,13 @@ export class UserService {
     private firestore: Firestore,
     private storage: Storage,
     private authService: AuthService
-  ) {}
+    ) {}
+
+  get allUsers$(): Observable<UserProfile[]>{
+    const refD = collection(this.firestore, 'users');
+    const queryAll = query(refD);
+    return collectionData(queryAll) as Observable<UserProfile[]>;
+  }
 
   get currentUserProfile$(): Observable<UserProfile | null> {
     return this.authService.currentUser$.pipe(
@@ -57,6 +64,7 @@ export class UserService {
     const userDocRef = doc(this.firestore, `users/${user.uid}`);
     return docData(userDocRef);
   }
+
 
   async esChofer(esChofer: boolean) {
     const user = this.auth.currentUser;

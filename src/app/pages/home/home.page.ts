@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { tap, map } from 'rxjs/operators';
-import { UserService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 

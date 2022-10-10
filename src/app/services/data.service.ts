@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Componente } from '../interfaces/interfaces';
-
+import { Componente, Sede } from '../models';
 import { Observable } from 'rxjs';
-import { Sede } from '../models/sede.interface';
 import { collection, doc } from 'firebase/firestore';
 import { collectionData, Firestore, docData } from '@angular/fire/firestore';
 

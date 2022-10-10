@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Componente } from './interfaces/interfaces';
+import { Componente } from './models/componente.interface';
 import { DataService } from './services/data.service';
 import { AuthService } from './auth/auth.service';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';

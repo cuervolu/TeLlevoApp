@@ -6,7 +6,7 @@ import {
   ToastController,
   MenuController,
 } from '@ionic/angular';
-import { LocationService } from '../../services/location.service';
+import { LocationService } from '../../services';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';

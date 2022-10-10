@@ -14,7 +14,6 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { ComponentsModule } from './components/components.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
