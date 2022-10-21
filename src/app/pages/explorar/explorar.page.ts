@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
 import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
+import { ApirutasService } from '../../services/apirutas.service';
 
 interface WayPoint {
   location: {
@@ -72,15 +73,17 @@ export class ExplorarPage implements OnInit {
 
   constructor(
     private locationService: LocationService,
+    private apiRutas: ApirutasService,
     private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
     private router: Router,
     private alertCtrl: AlertController,
     private ngZone: NgZone,
     private toastCtrl: ToastController,
-    private menuCtrl: MenuController,
+    private menuCtrl: MenuController
   ) {
     this.menuCtrl.enable(false);
+    this.listRoutes();
   }
 
   ngOnInit() {
@@ -89,6 +92,17 @@ export class ExplorarPage implements OnInit {
 
   ionViewDidEnter() {
     this.modal.present();
+  }
+
+  listRoutes() {
+    this.apiRutas.getRutas().subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
   }
 
   async loadMap() {
@@ -229,7 +243,27 @@ export class ExplorarPage implements OnInit {
       .subscribe(async (res) => {
         this.destination = res;
         this.calculateRoute(origin, this.destination, this.wayPoints);
+        this.createApiRoute(origin,item.description,this.destination);
       });
+  }
+
+  createApiRoute(origin, address, destination){
+    const route = {
+      origenLatLng: JSON.stringify(origin),
+      destino: address,
+      destinoLatLng: JSON.stringify(destination),
+      chofer: 'QVWwnxopTbPUpgerIcPnVnTtVA82',
+      pasajeros: 'MgOK4BWm0ad3EgDVcG4BFDwD8lN2',
+    };
+    console.log(route);
+    this.apiRutas.createRutas(route).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
   }
 
   async cancelRoute() {
@@ -248,11 +282,15 @@ export class ExplorarPage implements OnInit {
             this.directionsDisplay.setMap(null);
             this.modal.setCurrentBreakpoint(0.25);
             this.isDriving = false;
-            this.presentToast('Viaje cancelado exitosamente', 'success', 'checkmark-circle-outline');
+            this.presentToast(
+              'Viaje cancelado exitosamente',
+              'success',
+              'checkmark-circle-outline'
+            );
           },
         },
       ],
-      mode: 'ios'
+      mode: 'ios',
     });
 
     await alert.present();
@@ -269,7 +307,7 @@ export class ExplorarPage implements OnInit {
       header,
       message,
       buttons: ['OK'],
-      mode: 'ios'
+      mode: 'ios',
     });
     await alert.present();
   }
@@ -282,7 +320,7 @@ export class ExplorarPage implements OnInit {
       position: 'top',
       color,
       icon,
-      mode: 'ios'
+      mode: 'ios',
     });
     await toast.present();
   }
