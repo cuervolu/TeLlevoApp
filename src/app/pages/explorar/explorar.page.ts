@@ -14,6 +14,11 @@ import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
 import { ApirutasService } from '../../services/apirutas.service';
 
+
+interface LatLng {
+  lat: number;
+  lng: number;
+}
 interface WayPoint {
   location: {
     lat: number;
@@ -242,28 +247,37 @@ export class ExplorarPage implements OnInit {
       .reverseGeocode(item.description)
       .subscribe(async (res) => {
         this.destination = res;
+        console.log(res);
         this.calculateRoute(origin, this.destination, this.wayPoints);
-        this.createApiRoute(origin,item.description,this.destination);
+        // this.createApiRoute(origin, item.description, this.destination);
+        console.log('Origen: ' + origin);
+        console.log('Destino: ' + this.destination as unknown as LatLng);
       });
   }
 
-  createApiRoute(origin, address, destination){
+  createApiRoute(origin, address, destination) {
     const route = {
-      origenLatLng: JSON.stringify(origin),
-      destino: address,
-      destinoLatLng: JSON.stringify(destination),
+      origen: JSON.stringify(origin),
+      destino: JSON.stringify(destination),
+      // pasajero: [
+      //     {
+      //         uid: "MgOK4BWm0ad3EgDVcG4BFDwD8lN2",
+      //         waypoint: {
+      //             latitud: -33.43287728865121,
+      //             longitud: -70.6155758307221
+      //         }
+      //     },
+      //     {
+      //         uid: 1UKMBd7QHwfIvRLVewHe31mBrXE2",
+      //         waypoint: {
+      //             latitud: -33.605302759388024,
+      //             longitud: -70.54609684672977
+      //         }
+      //     }
+      // ],
+      direccion: address,
       chofer: 'QVWwnxopTbPUpgerIcPnVnTtVA82',
-      pasajeros: 'MgOK4BWm0ad3EgDVcG4BFDwD8lN2',
     };
-    console.log(route);
-    this.apiRutas.createRutas(route).subscribe(
-      (data) => {
-        console.log(data);
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
   }
 
   async cancelRoute() {

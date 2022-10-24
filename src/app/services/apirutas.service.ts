@@ -10,7 +10,7 @@ import { retry } from 'rxjs/operators';
 })
 export class ApirutasService {
 
-  rutas = 'http://127.0.0.1:8000/api/rutas/';
+  rutas = 'http://cuervolu.pythonanywhere.com/api/rutas/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
