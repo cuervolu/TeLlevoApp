@@ -27,6 +27,10 @@ export class HomePage implements OnInit {
 
   esChofer(value: boolean) {
     this.userService.esChofer(value);
-    this.router.navigateByUrl('/tabs/explorar');
+    if(value){
+      this.router.navigateByUrl('/tabs/explorar');
+    }else{
+      this.router.navigateByUrl('/tabs/passenger');
+    }
   }
 }
