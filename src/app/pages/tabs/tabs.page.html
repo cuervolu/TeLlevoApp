@@ -3,8 +3,11 @@
     <ion-tab-button tab="home">
       <ion-icon name="home-outline"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="explorar">
+    <ion-tab-button tab="explorar" *ngIf="esChofer">
       <ion-icon name="map-outline"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="passenger" *ngIf="!esChofer">
+      <ion-icon name="search-outline"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="perfil">
       <ion-icon name="person-outline"></ion-icon>

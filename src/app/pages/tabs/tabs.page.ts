@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services';
 
 @Component({
   selector: 'app-tabs',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
-
-  constructor() { }
+  esChofer = true;
+  profile = null;
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.getUserProfile().subscribe((data) => {
+      this.esChofer = data.esChofer;
+    });
   }
 
 }

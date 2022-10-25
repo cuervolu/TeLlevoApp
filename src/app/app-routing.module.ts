@@ -55,6 +55,10 @@ const routes: Routes = [
     redirectTo: 'inicio',
     pathMatch: 'full'
   },
+  {
+    path: 'passenger',
+    loadChildren: () => import('./pages/passenger/passenger.module').then( m => m.PassengerPageModule)
+  },
 ];
 
 @NgModule({

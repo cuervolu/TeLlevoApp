@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('../explorar/explorar.module').then( m => m.ExplorarPageModule)
       },
       {
+        path: 'passenger',
+        loadChildren: () => import('../passenger/passenger.module').then( m => m.PassengerPageModule)
+      },
+      {
         path: 'perfil',
         loadChildren: () => import('../perfil/perfil.module').then( m => m.PerfilPageModule)
       },
