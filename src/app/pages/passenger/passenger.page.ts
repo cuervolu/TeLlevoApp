@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services';
 
 @Component({
   selector: 'app-passenger',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./passenger.page.scss'],
 })
 export class PassengerPage implements OnInit {
-
-  constructor() { }
+  profile = null;
+  loading = false;
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.loading = true;
+    this.userService.getUserProfile().subscribe((data) => {
+      this.profile = data;
+      this.userService.getChoferBySede(this.profile.sede, this.profile.uid).subscribe((res) => {
+        console.log(res);
+        this.loading = false;
+      });
+    });
   }
 
 }

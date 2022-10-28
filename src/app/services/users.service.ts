@@ -19,7 +19,7 @@ import { UserProfile } from '../models/user.interface';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { deleteField, collection, query } from 'firebase/firestore';
+import { deleteField, collection, query, where } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -30,9 +30,9 @@ export class UserService {
     private firestore: Firestore,
     private storage: Storage,
     private authService: AuthService
-    ) {}
+  ) {}
 
-  get allUsers$(): Observable<UserProfile[]>{
+  get allUsers$(): Observable<UserProfile[]> {
     const refD = collection(this.firestore, 'users');
     const queryAll = query(refD);
     return collectionData(queryAll) as Observable<UserProfile[]>;
@@ -49,6 +49,18 @@ export class UserService {
       })
     );
   }
+
+  getChoferBySede(sede: string, uid: string): Observable<any> {
+    const refD = collection(this.firestore, 'users');
+    const queryUsers = query(
+      refD,
+      where('sede', '==', sede),
+      where('esChofer', '==', true),
+      where('uid', '!=', uid)
+    );
+    return collectionData(queryUsers) as Observable<UserProfile[]>;
+  }
+
   addUser(user: UserProfile): Observable<any> {
     const refD = doc(this.firestore, 'users', user.uid);
     return from(setDoc(refD, user));
@@ -65,7 +77,6 @@ export class UserService {
     return docData(userDocRef);
   }
 
-
   async esChofer(esChofer: boolean) {
     const user = this.auth.currentUser;
     const refD = doc(this.firestore, 'users', user.uid);
@@ -77,7 +88,6 @@ export class UserService {
       return null;
     }
   }
-
   async uploadImage(cameraFile: Photo) {
     const user = this.auth.currentUser;
     const path = `uploads/${user.uid}/profile.png`;

@@ -14,6 +14,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { ComponentsModule } from './components/components.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { EsChoferGuard, EsPasajeroGuard } from './guards';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,7 +28,12 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
   ],
-  providers: [Geolocation,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    Geolocation,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    EsChoferGuard,
+    EsPasajeroGuard
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
