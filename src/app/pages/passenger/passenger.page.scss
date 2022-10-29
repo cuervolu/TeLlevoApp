@@ -1,0 +1,13 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+ion-content{
+  --background: #f1f5f8;
+  ion-list{
+    background: #f1f5f8;
+    ion-item{
+      --background: #f1f5f8;
+    }
+  }
+}

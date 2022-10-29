@@ -1,9 +1,45 @@
-<ion-header>
+<ion-header class="ion-no-border" mode="ios">
   <ion-toolbar>
-    <ion-title>passenger</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Choferes</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content role="feed">
+  <div class="content" *ngIf="!loading">
+    <ion-list>
+      <ion-item mode="ios" *ngFor="let driver of drivers">
+        <ion-avatar slot="start">
+          <img [src]="driver.imageUrl ?? 'assets/default.jpg'" />
+        </ion-avatar>
+        <ion-label>{{driver.firstName}} {{driver.lastName}}
+          <p>{{driver.username}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Skeleton Text -->
+  <div class="skeleton" *ngIf="loading">
+    <ion-list mode="ios">
+      <ion-item mode="ios" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1]">
+        <ion-avatar slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  <!-- End Skeleton Text -->
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más choferes...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
