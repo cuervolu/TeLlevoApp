@@ -40,14 +40,15 @@
       <ion-col size="3" sizeMd="2">
         <ion-label>
           <h2>{{profile.firstName}}</h2>
-          <h4 *ngIf="profile.esChofer">Chofer</h4>
-          <h4 *ngIf="!profile.esChofer">Pasajero</h4>
+          <h4>Chofer</h4>
         </ion-label>
       </ion-col>
       <ion-col size="5" sizeMd="8">
         <ion-label class="ion-text-wrap">
           <small>Sede:</small>
           <h5>Duoc UC: {{profile.sede}}</h5>
+          <small>Precio Por Pasajero:</small>
+          <h5>{{profile.precio | currency:'CLP':'symbol-narrow'}}</h5>
         </ion-label>
       </ion-col>
     </ion-row>

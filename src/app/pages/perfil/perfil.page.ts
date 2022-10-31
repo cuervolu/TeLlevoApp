@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService, DataService } from '../../services';
-import { AlertController, IonModal, LoadingController } from '@ionic/angular';
+import {
+  AlertController,
+  IonModal,
+  LoadingController,
+  RangeCustomEvent,
+} from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ActionSheetController } from '@ionic/angular';
 import {
@@ -11,6 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { RangeValue } from '@ionic/core';
 
 @Component({
   selector: 'app-perfil',
@@ -20,11 +26,22 @@ import { ToastController } from '@ionic/angular';
 export class PerfilPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
 
+  enablePaymentRange: boolean;
+
+  driverPrice: RangeValue;
+
+  driverPriceUpdate: RangeValue;
+
   profile = null;
+
   loading = false;
+
   isModalOpen = false;
+
   sedes = [];
+
   sedeSeleccionada: string;
+
   profileForm = this.fb.group({
     uid: [''],
     email: [''],
@@ -51,6 +68,7 @@ export class PerfilPage implements OnInit {
     this.loading = true;
     this.userService.getUserProfile().subscribe((data) => {
       this.profile = data;
+      this.enablePaymentRange = this.profile.esChofer;
       this.loading = false;
       this.profileForm.patchValue(this.profile);
     });
@@ -82,7 +100,7 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  async presentActionSheet() {
+  async updateImage() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Foto de Perfil',
       buttons: [
@@ -177,10 +195,39 @@ export class PerfilPage implements OnInit {
   esChofer(value: boolean) {
     const esChofer = this.userService.esChofer(value);
     if (esChofer) {
+      if (!value) {
+        this.userService.deletePrecioViaje();
+      }
       this.presentToast('Se ha actualizado correctamente', 'success');
     } else {
       this.presentToast('No se ha podido actualizar', 'danger');
     }
+  }
+
+  pinFormatter(value: number) {
+    return `$${value}`;
+  }
+
+  paymentValue(ev: Event) {
+    this.driverPrice = (ev as RangeCustomEvent).detail.value;
+  }
+
+  onPaymentUpdate(ev: Event) {
+    this.driverPriceUpdate = (ev as RangeCustomEvent).detail.value;
+    const updatePrice = this.userService.precioViaje(
+      Number(this.driverPriceUpdate)
+    );
+    if (updatePrice) {
+      this.presentToast('Se ha actualizado correctamente', 'success');
+    } else {
+      this.presentToast('No se ha podido actualizar', 'danger');
+    }
+  }
+
+  getSedes() {
+    this.dataService.getSedes().subscribe((res) => {
+      this.sedes = res;
+    });
   }
 
   async presentToast(message: string, color: string) {
@@ -192,11 +239,5 @@ export class PerfilPage implements OnInit {
     });
 
     await toast.present();
-  }
-
-  getSedes() {
-    this.dataService.getSedes().subscribe((res) => {
-      this.sedes = res;
-    });
   }
 }

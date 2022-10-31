@@ -82,12 +82,38 @@ export class UserService {
     const refD = doc(this.firestore, 'users', user.uid);
     try {
       await from(updateDoc(refD, { esChofer }));
+      this.precioViaje(1500);
       return true;
     } catch (e) {
       console.log(e);
       return null;
     }
   }
+
+  async precioViaje(precio: number) {
+    const user = this.auth.currentUser;
+    const refD = doc(this.firestore, 'users', user.uid);
+    try {
+      await from(updateDoc(refD, { precio }));
+      return true;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
+  async deletePrecioViaje() {
+    const user = this.auth.currentUser;
+    const refD = doc(this.firestore, 'users', user.uid);
+    try {
+      await from(updateDoc(refD, { precio: deleteField() }));
+      return true;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
   async uploadImage(cameraFile: Photo) {
     const user = this.auth.currentUser;
     const path = `uploads/${user.uid}/profile.png`;

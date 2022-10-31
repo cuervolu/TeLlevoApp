@@ -111,7 +111,7 @@
               </ion-card>
             </ion-col>
             <ion-col size="6" size-md="4" size-lg="5" class="ion-align-self-end">
-              <div class="profile-image" (click)="presentActionSheet()">
+              <div class="profile-image" (click)="updateImage()">
                 <ion-icon name="create"></ion-icon>
                 <img [src]="profile.imageUrl ?? '/assets/default.jpg'" alt="Foto de Perfil">
               </div>
@@ -176,10 +176,29 @@
             <ion-icon name="car-outline"></ion-icon>
             Chofer
           </ion-label>
-          <ion-toggle color="warning" slot="end" [(ngModel)]="profile.esChofer" (ngModelChange)="esChofer($event)"></ion-toggle>
+          <ion-toggle color="warning" slot="end" [(ngModel)]="profile.esChofer" (ngModelChange)="esChofer($event)">
+          </ion-toggle>
         </ion-item>
 
+        <!-- Si el Usuario es Chofer -->
+        <div class="esChofer" *ngIf="enablePaymentRange">
+          <ion-item lines="full">
+            <ion-label slot="start" class="title">Valor Por Viaje</ion-label>
+            <ion-label slot="end" class="ion-text-wrap userInfo">{{profile.precio | currency:'CLP':'symbol-narrow'}}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-range min="1500" max="5000" (ionChange)="paymentValue($event)"
+              (ionKnobMoveEnd)="onPaymentUpdate($event)" [pin]="true" [pinFormatter]="pinFormatter"
+              [value]="profile.precio">
+              <ion-icon slot="end" name="cash" color="light"></ion-icon>
+            </ion-range>
+          </ion-item>
+          <p class="moneyAdvice">Recuerda establecer un precio económico</p>
+        </div>
       </ion-list>
+
       <ion-button (click)="setOpen(true)" fill="outline" color="warning" mode="ios" expand="full" shape="round">Editar
         Perfil</ion-button>
     </div>
@@ -222,7 +241,8 @@
           </ion-item>
           <ion-item mode="ios" class="editProfile">
             <ion-label position="floating">Sede</ion-label>
-            <ion-select interface="popover" placeholder="Selecciona tu sede" mode="ios" formControlName="sede">
+            <ion-select interface="popover" placeholder="Selecciona tu sede" mode="ios" formControlName="sede"
+              [value]="profile.sede">
               <ion-select-option [value]="sede.nombre" *ngFor="let sede of sedes">{{sede.nombre}}</ion-select-option>
             </ion-select>
           </ion-item>

@@ -6,5 +6,6 @@ export interface UserProfile {
   lastName?: string;
   imageUrl?: string;
   esChofer?: boolean;
+  precio?: number;
   sede?: string;
 }

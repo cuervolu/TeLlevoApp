@@ -81,6 +81,41 @@ ion-content:not(#editProfile) {
           font-weight: 400;
         }
       }
+      .esChofer {
+        ion-item {
+          ion-range {
+            --bar-background: #f8df8b;
+            --bar-background-active: #f7d050;
+            --bar-height: 8px;
+            --bar-border-radius: 8px;
+            --knob-background: #ffffff;
+            --knob-size: 20px;
+            --pin-color: #fff;
+          }
+          ion-range::part(pin) {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fffdfe;
+            color: #343539;
+
+            border-radius: 50%;
+
+            top: -20px;
+
+            min-width: 28px;
+            height: 28px;
+            transition: transform 120ms ease, background 120ms ease;
+          }
+
+        }
+        .moneyAdvice {
+          font-size: 0.6rem;
+          text-align: center !important;
+          color: #c0c1c2;
+        }
+      }
     }
   }
   ion-modal {
