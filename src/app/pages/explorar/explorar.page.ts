@@ -4,7 +4,6 @@ import {
   LoadingController,
   IonSearchbar,
   ToastController,
-  MenuController,
 } from '@ionic/angular';
 import { LocationService } from '../../services';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -13,7 +12,6 @@ import { IonModal } from '@ionic/angular';
 import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
 import { ApirutasService } from '../../services/apirutas.service';
-
 
 interface LatLng {
   lat: number;
@@ -84,10 +82,8 @@ export class ExplorarPage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private ngZone: NgZone,
-    private toastCtrl: ToastController,
-    private menuCtrl: MenuController
+    private toastCtrl: ToastController
   ) {
-    this.menuCtrl.enable(false);
     this.listRoutes();
   }
 
@@ -251,7 +247,7 @@ export class ExplorarPage implements OnInit {
         this.calculateRoute(origin, this.destination, this.wayPoints);
         // this.createApiRoute(origin, item.description, this.destination);
         console.log('Origen: ' + origin);
-        console.log('Destino: ' + this.destination as unknown as LatLng);
+        console.log(('Destino: ' + this.destination) as unknown as LatLng);
       });
   }
 
@@ -312,7 +308,6 @@ export class ExplorarPage implements OnInit {
 
   redirectTo(name: string) {
     this.modal.dismiss();
-    this.menuCtrl.enable(true);
     this.router.navigateByUrl(`/tabs/${name}`);
   }
 

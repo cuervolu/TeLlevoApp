@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 import {
   AlertController,
   LoadingController,
-  MenuController,
   ToastController,
 } from '@ionic/angular';
 import { AuthService } from '../../auth/auth.service';
@@ -55,13 +54,10 @@ export class SignUpPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private fb: FormBuilder,
-    private menuCtrl: MenuController,
     private userService: UserService,
     private dataService: DataService,
     private toastCtrl: ToastController,
-  ) {
-    this.menuCtrl.enable(false);
-  }
+  ) { }
 
   get email() {
     return this.slideOneForm.get('email');
@@ -84,15 +80,6 @@ export class SignUpPage implements OnInit {
   get sede() {
     return this.slideTwoForm.get('sede');
   }
-
-  //Desactiva el menú en la página
-  ionViewWillEnter() {
-    this.menuCtrl.enable(false);
-  }
-  // //Activa el menú en la siguiente página
-  // ionViewDidLeave() {
-  //   this.menuCtrl.enable(true);
-  // }
 
   ngOnInit() {
     this.getSedes();

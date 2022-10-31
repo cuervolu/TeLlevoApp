@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, MenuController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -15,7 +15,6 @@ export class ForgetPassPage implements OnInit {
     private router: Router,
     private authService: AuthService,
     private fb: FormBuilder,
-    private menuCtrl: MenuController,
     private alertCtrl: AlertController
   ) {}
 
@@ -27,18 +26,17 @@ export class ForgetPassPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
     });
   }
-  ionViewWillEnter() {
-    this.menuCtrl.enable(false);
-  }
 
-  async onSubmit(){
-    const {email} = this.credentials.value;
+  async onSubmit() {
+    const { email } = this.credentials.value;
     const alert = await this.alertCtrl.create({
-        header: 'Su solicitud se ha realizado con éxito',
-        message: 'Se le enviará un email con los pasos a seguir',
-        buttons: ['OK']
-      });
-      await alert.present();
-    this.authService.forgetPassword(email).then(() => this.router.navigate(['/login']));
+      header: 'Su solicitud se ha realizado con éxito',
+      message: 'Se le enviará un email con los pasos a seguir',
+      buttons: ['OK'],
+    });
+    await alert.present();
+    this.authService
+      .forgetPassword(email)
+      .then(() => this.router.navigate(['/login']));
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -31,24 +30,9 @@ export class InicioPage implements OnInit {
     },
   ];
 
-  constructor(
-    private menuCtrl: MenuController,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    //Desactiva el menu si se encuentra en la página de inicio
-    this.router.events.subscribe((event: RouterEvent) => {
-      if (
-        (event instanceof NavigationEnd && event.url === '/inicio') ||
-        event.url === '/' ||
-        event.url === '/sign-up' ||
-        event.url === '/forget-pass' ||
-        event.url === '/login'
-      ) {
-        this.menuCtrl.enable(false);
-      }
-    });
     //Mostrar  slides solo al ser la primera vez de uso
     const checkView = localStorage.getItem('pageDisplayed');
     if (checkView) {
@@ -57,5 +41,4 @@ export class InicioPage implements OnInit {
       localStorage.setItem('pageDisplayed', 'ok');
     }
   }
-
 }

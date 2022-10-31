@@ -1,11 +1,3 @@
-<ion-header class="ion-no-border" mode="ios">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button menu="first"></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen>
   <!-- Skeleton Text -->
   <div class="skeleton" *ngIf="loading">
@@ -199,8 +191,8 @@
         </div>
       </ion-list>
 
-      <ion-button (click)="setOpen(true)" fill="outline" color="warning" mode="ios" expand="full" shape="round">Editar
-        Perfil</ion-button>
+      <ion-button (click)="setOpen(true)" fill="outline" color="warning" mode="ios" expand="full" shape="round">Editar Perfil</ion-button>
+      <ion-button (click)="logout()" fill="outline" color="warning" mode="ios" expand="full" shape="round">Cerrar Sesión</ion-button>
     </div>
   </div>
 

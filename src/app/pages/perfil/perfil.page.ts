@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService, DataService } from '../../services';
 import {
   AlertController,
   IonModal,
@@ -17,6 +16,10 @@ import {
 } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { RangeValue } from '@ionic/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../auth/auth.service';
+import { UserService, DataService } from '../../services';
 
 @Component({
   selector: 'app-perfil',
@@ -56,12 +59,14 @@ export class PerfilPage implements OnInit {
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private dataService: DataService,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public actionSheetCtrl: ActionSheetController,
     private fb: FormBuilder,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -239,5 +244,10 @@ export class PerfilPage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigateByUrl('/', { replaceUrl: true });
   }
 }

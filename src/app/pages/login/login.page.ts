@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   LoadingController,
-  MenuController,
 } from '@ionic/angular';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -21,10 +20,8 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private menuCtrl: MenuController,
     private fb: FormBuilder
   ) {
-    this.menuCtrl.enable(false);
   }
 
   get email() {
@@ -41,15 +38,6 @@ export class LoginPage implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-
-  //Desactiva el menú en la página
-  ionViewWillEnter() {
-    this.menuCtrl.enable(false);
-  }
-  // //Activa el menú en la siguiente página
-  // ionViewDidLeave() {
-  //   this.menuCtrl.enable(true);
-  // }
 
   async login() {
     const loading = await this.loadingCtrl.create();
