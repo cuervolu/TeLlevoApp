@@ -4,39 +4,48 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content role="feed">
+<ion-content class="ion-padding" fullscreen>
   <div class="content" *ngIf="!loading">
-    <ion-list>
-      <ion-item mode="ios" *ngFor="let driver of drivers">
-        <ion-avatar slot="start">
-          <img [src]="driver.imageUrl ?? 'assets/default.jpg'" />
-        </ion-avatar>
-        <ion-label>{{driver.firstName}} {{driver.lastName}}
-          <p>{{driver.username}}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+    <ion-grid fixed>
+      <ion-row *ngFor="let driver of drivers">
+        <ion-col size="12">
+          <ion-list lines="none" mode="ios">
+            <ion-item>
+              <ion-avatar slot="start">
+                <img [src]="driver.imageUrl ?? 'assets/default.jpg'" />
+              </ion-avatar>
+              <ion-label class="ion-text-wrap ion-text-capitalize">{{driver.firstName}} {{driver.lastName}}
+                <p class="ion-text-lowercase">{{driver.username}}</p>
+              </ion-label>
+              <ion-badge slot="end" [color]="driver.precio > 2500 ? 'danger' : 'primary'">{{driver.precio |
+                currency:'CLP':'symbol-narrow'}}</ion-badge>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
   <!-- Skeleton Text -->
   <div class="skeleton" *ngIf="loading">
-    <ion-list mode="ios">
-      <ion-item mode="ios" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1]">
-        <ion-avatar slot="start">
-          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-        </ion-avatar>
-        <ion-label>
-          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-          <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+    <ion-grid fixed>
+      <ion-row *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]">
+        <ion-col size="12">
+          <ion-list lines="none" mode="ios">
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+              </ion-avatar>
+              <ion-label>
+                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
   <!-- End Skeleton Text -->
-
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más choferes...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 
 </ion-content>
