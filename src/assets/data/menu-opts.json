@@ -5,6 +5,11 @@
     "redirectTo": "/tabs/explorar"
   },
   {
+    "icon": "search-outline",
+    "name": "Buscar",
+    "redirectTo": "/tabs/passenger"
+  },
+  {
     "icon": "person-outline",
     "name": "Perfil",
     "redirectTo": "/tabs/perfil"
