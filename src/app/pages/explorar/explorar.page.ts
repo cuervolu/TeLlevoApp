@@ -5,13 +5,14 @@ import {
   IonSearchbar,
   ToastController,
 } from '@ionic/angular';
-import { LocationService } from '../../services';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
 import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
-import { ApirutasService } from '../../services/apirutas.service';
+
+import { LocationService, ApirutasService } from '../../services';
+
 
 interface LatLng {
   lat: number;
@@ -82,7 +83,7 @@ export class ExplorarPage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private ngZone: NgZone,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
   ) {
     this.listRoutes();
   }
@@ -95,6 +96,9 @@ export class ExplorarPage implements OnInit {
     this.modal.present();
   }
 
+  ionViewDidLeave(){
+    this.modal.dismiss();
+  }
   listRoutes() {
     this.apiRutas.getRutas().subscribe(
       (data) => {
