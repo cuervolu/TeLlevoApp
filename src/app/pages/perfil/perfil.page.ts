@@ -245,15 +245,6 @@ export class PerfilPage implements OnInit {
     const { role } = await modal.onWillDismiss();
   }
 
-  //Probar si los campos en la BD del vehiculo existen
-  doesBrandExist(): boolean {
-    if (typeof this.profile.vehiculo !== 'undefined' && this.profile.vehiculo) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   //END CHOFER
 
   getSedes() {
