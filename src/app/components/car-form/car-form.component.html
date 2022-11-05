@@ -1,0 +1,46 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+  <ion-list mode="ios">
+
+    <ion-list-header>
+
+      <ion-label>Información del Vehículo</ion-label>
+      <ion-buttons>
+        <ion-button [strong]="true" type="submit" (click)="onSubmit()">Guardar</ion-button>
+      </ion-buttons>
+    </ion-list-header>
+
+    <ion-progress-bar type="indeterminate" *ngIf="showSubmitLoader"></ion-progress-bar>
+    <ion-progress-bar type="indeterminate" *ngIf="showMakeLoader"></ion-progress-bar>
+    <ion-item>
+      <ion-label>Marca</ion-label>
+      <ion-select interface="popover" placeholder="Selecciona la marca" mode="ios" formControlName="marca"
+        [disabled]="showMakeLoader" (ionChange)="onSelectMake($event)" required>
+        <ion-select-option [value]="make" *ngFor="let make of maker">{{make}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-progress-bar type="indeterminate" *ngIf="showYearLoader"></ion-progress-bar>
+    <ion-item>
+      <ion-label>Año</ion-label>
+      <ion-select interface="popover" placeholder="Selecciona el año" mode="ios" formControlName="anio"
+        [disabled]="disableYearSelection" (ionChange)="onSelectYear($event)" required>
+        <ion-select-option [value]="year" *ngFor="let year of years">{{year}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-progress-bar type="indeterminate" *ngIf="showModelLoaders"></ion-progress-bar>
+    <ion-item>
+      <ion-label>Modelo</ion-label>
+      <ion-select interface="popover" placeholder="Selecciona el modelo" mode="ios" formControlName="modelo"
+        [disabled]="disableModelSelection" (ionChange)="onSelectedModel($event)" required>
+        <ion-select-option [value]="model.model" *ngFor="let model of models">{{model.model}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-thumbnail>
+      <img src="/assets/carForm.png" />
+    </ion-thumbnail>
+
+  </ion-list>
+
+</form>

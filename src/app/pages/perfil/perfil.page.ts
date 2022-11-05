@@ -3,7 +3,9 @@ import {
   AlertController,
   IonModal,
   LoadingController,
+  ModalController,
   RangeCustomEvent,
+  ToastController,
 } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ActionSheetController } from '@ionic/angular';
@@ -14,12 +16,12 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { RangeValue } from '@ionic/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
 import { UserService, DataService } from '../../services';
+import { CarFormComponent } from '../../components/car-form/car-form.component';
 
 @Component({
   selector: 'app-perfil',
@@ -43,8 +45,6 @@ export class PerfilPage implements OnInit {
 
   sedes = [];
 
-  sedeSeleccionada: string;
-
   profileForm = this.fb.group({
     uid: [''],
     email: [''],
@@ -64,9 +64,10 @@ export class PerfilPage implements OnInit {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public actionSheetCtrl: ActionSheetController,
-    private fb: FormBuilder,
     private toastCtrl: ToastController,
-    private router: Router
+    private modalCtrl: ModalController,
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -197,6 +198,7 @@ export class PerfilPage implements OnInit {
     this.roleMessage = `Dismissed with role: ${role}`;
   }
 
+  //CHOFER
   esChofer(value: boolean) {
     const esChofer = this.userService.esChofer(value);
     if (esChofer) {
@@ -228,6 +230,31 @@ export class PerfilPage implements OnInit {
       this.presentToast('No se ha podido actualizar', 'danger');
     }
   }
+
+  async showCarForm() {
+    const modal = await this.modalCtrl.create({
+      component: CarFormComponent,
+      mode: 'ios',
+      breakpoints: [0, 0.25, 0.5, 0.75],
+      initialBreakpoint: 0.75,
+      componentProps: {
+        profile: this.profile,
+      },
+    });
+    modal.present();
+    const { role } = await modal.onWillDismiss();
+  }
+
+  //Probar si los campos en la BD del vehiculo existen
+  doesBrandExist(): boolean {
+    if (typeof this.profile.vehiculo !== 'undefined' && this.profile.vehiculo) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  //END CHOFER
 
   getSedes() {
     this.dataService.getSedes().subscribe((res) => {

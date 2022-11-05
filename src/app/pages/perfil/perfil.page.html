@@ -171,14 +171,52 @@
           <ion-toggle color="warning" slot="end" [(ngModel)]="profile.esChofer" (ngModelChange)="esChofer($event)">
           </ion-toggle>
         </ion-item>
+      </ion-list>
 
-        <!-- Si el Usuario es Chofer -->
-        <div class="esChofer" *ngIf="enablePaymentRange">
+      <!-- Si el Usuario es Chofer -->
+      <div class="esChofer" *ngIf="enablePaymentRange">
+        <ion-list mode="ios">
+          <ion-list-header>
+            Información de Chofer
+          </ion-list-header>
           <ion-item lines="full">
             <ion-label slot="start" class="title">Valor Por Viaje</ion-label>
             <ion-label slot="end" class="ion-text-wrap userInfo">{{profile.precio | currency:'CLP':'symbol-narrow'}}
             </ion-label>
           </ion-item>
+
+          <ng-container *ngIf="profile.vehiculo!==undefined; else noVehicle">
+            <ion-item lines="full">
+              <ion-label slot="start" class="title">Vehículo</ion-label>
+              <ion-label slot="end" class="ion-text-wrap userInfo">
+                {{profile.vehiculo.modelo}}</ion-label>
+            </ion-item>
+            <ion-item lines="full">
+              <ion-label slot="start" class="title">Marca</ion-label>
+              <ion-label slot="end" class="ion-text-wrap userInfo">
+                {{profile.vehiculo.marca}}</ion-label>
+            </ion-item>
+            <ion-item lines="full">
+              <ion-label slot="start" class="title">Año</ion-label>
+              <ion-label slot="end" class="ion-text-wrap userInfo">
+                {{profile.vehiculo.anio}}</ion-label>
+            </ion-item>
+          </ng-container>
+
+          <ng-template #noVehicle>
+            <ion-item lines="full">
+              <ion-label slot="start" class="title">Vehículo</ion-label>
+              <ion-label slot="end" class="ion-text-wrap userInfoNull">Sin datos</ion-label>
+            </ion-item>
+            <ion-item lines="full">
+              <ion-label slot="start" class="title">Marca</ion-label>
+              <ion-label slot="end" class="ion-text-wrap userInfoNull">Sin datos</ion-label>
+            </ion-item>
+            <ion-item lines="full">
+              <ion-label slot="start" class="title">Año</ion-label>
+              <ion-label slot="end" class="ion-text-wrap userInfoNull">Sin datos</ion-label>
+            </ion-item>
+          </ng-template>
 
           <ion-item lines="none">
             <ion-range min="1500" max="5000" (ionChange)="paymentValue($event)"
@@ -188,11 +226,16 @@
             </ion-range>
           </ion-item>
           <p class="moneyAdvice">Recuerda establecer un precio económico</p>
-        </div>
-      </ion-list>
+          <ion-button (click)="showCarForm()" fill="clear" color="warning" mode="ios" expand="full" size="small">
+            Editar información de vehículo
+          </ion-button>
+        </ion-list>
+      </div>
 
-      <ion-button (click)="setOpen(true)" fill="outline" color="warning" mode="ios" expand="full" shape="round">Editar Perfil</ion-button>
-      <ion-button (click)="logout()" fill="clear" color="warning" mode="ios" expand="full"  size="small" shape="round">Cerrar Sesión</ion-button>
+      <ion-button (click)="setOpen(true)" fill="outline" color="warning" mode="ios" expand="full" shape="round">Editar
+        Perfil</ion-button>
+      <ion-button (click)="logout()" fill="clear" color="warning" mode="ios" expand="full" size="small">Cerrar Sesión
+      </ion-button>
     </div>
   </div>
 

@@ -15,7 +15,7 @@ import {
   Storage,
   uploadString,
 } from '@angular/fire/storage';
-import { UserProfile } from '../models/user.interface';
+import { UserProfile, Vehicle } from '../models/user.interface';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
@@ -69,6 +69,23 @@ export class UserService {
   updateUser(user: UserProfile): Observable<any> {
     const refD = doc(this.firestore, 'users', user.uid);
     return from(updateDoc(refD, { ...user }));
+  }
+
+  updateDriverVehicle(uid: string, vehicle: Vehicle): Observable<any> {
+    const refD = doc(this.firestore, 'users', uid);
+    return from(
+      updateDoc(refD, {
+        vehiculo: {
+          marca: vehicle.marca,
+          anio: vehicle.anio,
+          modelo: vehicle.modelo,
+        },
+      })
+    );
+  }
+
+  vehicleExist(uid: string){
+    const refD =  collection(this.firestore, 'users', uid, 'vehiculo');
   }
 
   getUserProfile() {

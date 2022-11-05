@@ -60,6 +60,7 @@ ion-content:not(#editProfile) {
       background: transparent;
       ion-list-header {
         color: white;
+        font-size: 18px;
       }
       ion-item {
         --background: transparent;
@@ -81,7 +82,13 @@ ion-content:not(#editProfile) {
           font-weight: 400;
         }
       }
-      .esChofer {
+    }
+    .esChofer {
+      ion-list {
+        ion-list-header {
+          color: white;
+          font-size: 18px;
+        }
         ion-item {
           ion-range {
             --bar-background: #f8df8b;
@@ -108,7 +115,6 @@ ion-content:not(#editProfile) {
             height: 28px;
             transition: transform 120ms ease, background 120ms ease;
           }
-
         }
         .moneyAdvice {
           font-size: 0.6rem;
@@ -118,6 +124,7 @@ ion-content:not(#editProfile) {
       }
     }
   }
+  
   ion-modal {
     --background: rgba(255, 255, 255, 0.8) !important;
     ng-template {

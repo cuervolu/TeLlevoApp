@@ -1,3 +1,8 @@
+export interface Vehicle{
+  marca?: string;
+  anio?: number;
+  modelo?: string;
+}
 export interface UserProfile {
   uid: string;
   email?: string;
@@ -8,4 +13,5 @@ export interface UserProfile {
   esChofer?: boolean;
   precio?: number;
   sede?: string;
+  vehiculo?: Vehicle;
 }
