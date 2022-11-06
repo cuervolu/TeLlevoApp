@@ -265,7 +265,28 @@ export class PerfilPage implements OnInit {
   }
 
   async logout() {
-    await this.authService.logout();
-    this.router.navigateByUrl('/', { replaceUrl: true });
+    const alert = await this.alertCtrl.create({
+      header: 'Cerrar Sesión',
+      message: '¿Estás seguro de querer cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.handlerMessage = 'Cerrar Sesión Cancelado';
+          },
+        },
+        {
+          text: 'Estoy seguro',
+          role: 'confirm',
+          handler: async () => {
+            await this.authService.logout();
+            this.router.navigateByUrl('/', { replaceUrl: true });
+          }
+        },
+      ],
+      mode: 'ios'
+    });
+    await alert.present();
   }
 }
