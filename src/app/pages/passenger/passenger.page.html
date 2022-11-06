@@ -10,7 +10,7 @@
       <ion-row *ngFor="let driver of drivers">
         <ion-col size="12">
           <ion-list lines="none" mode="ios">
-            <ion-item>
+            <ion-item (click)="onSelectDriver(driver.uid)">
               <ion-avatar slot="start">
                 <img [src]="driver.imageUrl ?? 'assets/default.jpg'" />
               </ion-avatar>

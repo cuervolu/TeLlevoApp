@@ -61,6 +61,11 @@ export class UserService {
     return collectionData(queryUsers) as Observable<UserProfile[]>;
   }
 
+  getChoferByUid(uid: string): Observable<any> {
+    const refD = collection(this.firestore, 'users');
+    const queryUser = query(refD, where('uid', '==', uid));
+    return collectionData(queryUser) as Observable<UserProfile[]>;
+  }
   addUser(user: UserProfile): Observable<any> {
     const refD = doc(this.firestore, 'users', user.uid);
     return from(setDoc(refD, user));
@@ -84,8 +89,8 @@ export class UserService {
     );
   }
 
-  vehicleExist(uid: string){
-    const refD =  collection(this.firestore, 'users', uid, 'vehiculo');
+  vehicleExist(uid: string) {
+    const refD = collection(this.firestore, 'users', uid, 'vehiculo');
   }
 
   getUserProfile() {

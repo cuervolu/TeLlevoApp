@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, IonModal, LoadingController, ModalController } from '@ionic/angular';
 
 import { UserService } from '../../services';
 import { UserProfile } from '../../models';
+import { DriverProfileComponent } from '../../components/driver-profile/driver-profile.component';
 
 @Component({
   selector: 'app-passenger',
@@ -10,11 +11,15 @@ import { UserProfile } from '../../models';
   styleUrls: ['./passenger.page.scss'],
 })
 export class PassengerPage implements OnInit {
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonModal) modal: IonModal;
+
+  isModalOpen = false;
   profile = null;
   loading = false;
   drivers: UserProfile[] = [];
-  constructor(private userService: UserService) {}
+  driverProfile: UserProfile = null;
+
+  constructor(private userService: UserService, private loadingCtrl: LoadingController, private modalCtrl: ModalController) {}
 
   ngOnInit() {
     this.getDrivers();
@@ -32,5 +37,20 @@ export class PassengerPage implements OnInit {
         });
     });
   }
+
+  async onSelectDriver(uid: string){
+    const modal = await this.modalCtrl.create({
+      component: DriverProfileComponent,
+      mode: 'ios',
+      componentProps: {
+        uid,
+      },
+    });
+    modal.present();
+  }
+
+
+
+  confirm(){}
 }
 
