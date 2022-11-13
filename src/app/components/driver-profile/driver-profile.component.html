@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Contratar</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding" fullscreen>
+  <ng-container *ngIf="!loading">
+    <ion-grid fixed>
+      <!-- Información de Chofer -->
+      <ion-row>
+        <ion-col size="6" sizeMd="4" sizeLg="6">
+          <ion-item lines="none" mode="ios">
+            <div class="profile-image">
+              <img [src]="profile.imageUrl ?? '/assets/default.jpg'" alt="Foto de Perfil">
+              <figcaption class="ion-text-wrap">{{profile.username}}</figcaption>
+            </div>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6" sizeMd="8" sizeLg="6">
+          <ion-item lines="none" mode="ios">
+            <ion-label class="ion-text-wrap ion-text-capitalize profile-name">{{profile.firstName}} {{profile.lastName}}
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none" mode="ios">
+            <ion-label>
+              <!-- TODO: Agregar sistema de medición de viajes y reputación -->
+              <p>Viajes: </p>
+              <p>Reputación: </p>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <!-- Información de Vehículo -->
+      <ion-row>
+        <ion-col size="12">
+          <ng-container *ngIf="profile.vehiculo!==undefined; else noVehicle">
+            <ion-list lines="none">
+              <ion-list-header>
+                <ion-label>Vehículo</ion-label>
+              </ion-list-header>
+              <ion-item lines="none" mode="ios">
+                <ion-label class="profile-vehicle-data">Modelo:</ion-label>
+                <ion-label class="ion-text-wrap">{{profile.vehiculo.marca}} {{profile.vehiculo.modelo}}
+                  {{profile.vehiculo.anio}}
+                </ion-label>
+              </ion-item>
+              <ion-item lines="none" mode="ios">
+                <ion-label class="ion-text-wrap profile-vehicle-data">Asientos Disponibles: </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+          <ng-template #noVehicle>
+            <ion-list lines="none">
+              <ion-list-header>
+                <ion-label>Vehículo</ion-label>
+              </ion-list-header>
+              <ion-item lines="none" mode="ios">
+                <ion-label class="profile-vehicle-data">Modelo:</ion-label>
+                <ion-label class="ion-text-wrap">Sin Información</ion-label>
+              </ion-item>
+              <ion-item lines="none" mode="ios">
+                <ion-label class="ion-text-wrap profile-vehicle-data">Asientos Disponibles:</ion-label>
+                <ion-label class="ion-text-wrap">Sin Información</ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-template>
+        </ion-col>
+      </ion-row>
+      <!-- Información de contrato -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item lines="none" mode="ios">
+            <ion-button expand="block" fill="solid" shape="round" [color]="profile.precio > 2500 ? 'danger' : 'primary'"
+              slot="start" [hidden]="newPrecio > 0">
+              {{profile.precio |currency:'CLP':'symbol-narrow'}}
+            </ion-button>
+            <ion-button expand="block" fill="solid" shape="round" [color]="newPrecio > 2500 ? 'danger' : 'primary'"
+              slot="start" *ngIf="newPrecio > 0">
+              {{newPrecio |currency:'CLP':'symbol-narrow'}}
+            </ion-button>
+            <ion-select interface="popover" placeholder="Acompañantes" slot="end" (ionChange)="onSelect($event)">
+              <ion-select-option *ngFor="let number of [1,2,3,4]; let i = index" [value]="i+1">{{i+1}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <!-- Botón de contratar -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="contratar()" expand="block" fill="solid" shape="round" color="primary">
+            Contratar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+
+  <!-- Skeleton Text -->
+  <ng-container *ngIf="loading">
+    <ion-grid fixed>
+      <ion-row *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]">
+        <ion-col size="6" sizeMd="4" sizeLg="6">
+          <ion-item lines="none" mode="ios">
+            <div class="profile-image">
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+            </div>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6" sizeMd="8" sizeLg="6">
+          <ion-item lines="none" mode="ios">
+            <ion-label>
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none" mode="ios">
+            <ion-label>
+              <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-list lines="none">
+            <ion-list-header>
+              <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+            </ion-list-header>
+            <ion-item lines="none" mode="ios">
+              <ion-label>
+                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+              </ion-label>
+              <ion-label>
+                <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+              </ion-label>
+            </ion-item>
+            <ion-item lines="none" mode="ios">
+              <ion-label>
+                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item lines="none" mode="ios">
+            <ion-skeleton-text [animated]="true" style="width: 40%;"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+
+</ion-content>

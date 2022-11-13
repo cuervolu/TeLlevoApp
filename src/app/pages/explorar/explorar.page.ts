@@ -11,8 +11,8 @@ import { IonModal } from '@ionic/angular';
 import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
 
-import { LocationService, ApirutasService } from '../../services';
-
+import { LocationService, ApirutasService, DataService } from '../../services';
+import { Sede } from '../../models';
 
 interface LatLng {
   lat: number;
@@ -41,6 +41,7 @@ export class ExplorarPage implements OnInit {
   //Latitud y Longitud de Duoc UC: Sede Puente Alto
   lat: any = -33.59767508016667;
   lng: any = -70.57894225397776;
+  sedes: Sede[] = [];
 
   query = '';
 
@@ -48,6 +49,7 @@ export class ExplorarPage implements OnInit {
   searchResults = new Array<any>();
 
   destiny: string;
+
   //Directions
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -78,14 +80,15 @@ export class ExplorarPage implements OnInit {
   constructor(
     private locationService: LocationService,
     private apiRutas: ApirutasService,
+    private dataService: DataService,
     private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
     private router: Router,
     private alertCtrl: AlertController,
     private ngZone: NgZone,
-    private toastCtrl: ToastController,
+    private toastCtrl: ToastController
   ) {
-    this.listRoutes();
+    // this.listRoutes();
   }
 
   ngOnInit() {
@@ -96,7 +99,7 @@ export class ExplorarPage implements OnInit {
     this.modal.present();
   }
 
-  ionViewDidLeave(){
+  ionViewDidLeave() {
     this.modal.dismiss();
   }
   listRoutes() {
@@ -154,7 +157,8 @@ export class ExplorarPage implements OnInit {
     });
 
     //Añade marcador en ubicación de Duoc UC: Puente Alto
-    this.addMarker(duocPalto, map, 'Duoc UC: Sede Puente Alto');
+    // this.addMarker(duocPalto, map, 'Duoc UC: Sede Puente Alto');
+    this.getSedes(map);
 
     //Añade direcciones de ruta para el usuario
     this.directionsDisplay.setMap(map);
@@ -178,7 +182,20 @@ export class ExplorarPage implements OnInit {
             lng: position.coords.longitude,
           };
           map.setCenter(pos);
-          this.addMarker(pos, map, 'Estás aquí');
+          const marker = new google.maps.Marker({
+            position: pos,
+            map,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 10,
+              fillOpacity: 1,
+              strokeWeight: 2,
+              fillColor: '#5384ED',
+              strokeColor: '#ffffff',
+            }
+          });
+
+          // this.addMarker(pos, map, 'Estás aquí');
         },
         (e) => {
           console.log(e);
@@ -195,6 +212,21 @@ export class ExplorarPage implements OnInit {
         'Tu sistema no soporta la Geolocalización'
       );
     }
+  }
+
+  getSedes(map: any) {
+    this.dataService.getSedes().subscribe((res) => {
+      this.sedes = res;
+      for (const sede of this.sedes) {
+        const marker = new google.maps.Marker({
+          position: sede.coordenadas,
+          label: `Duoc UC: ${sede.nombre}`,
+          map,
+          icon: '/assets/collagueicon.png'
+        });
+      }
+      console.log(this.sedes);
+    });
   }
 
   onSearch() {

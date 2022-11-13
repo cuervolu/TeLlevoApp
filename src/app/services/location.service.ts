@@ -27,7 +27,7 @@ export class LocationService {
             observer.next(results[0].geometry.location);
             observer.complete();
           } else {
-            console.log(
+            console.error(
               'Geocode no tuvo éxito por la siguiente razón: ' + status
             );
           }
@@ -36,11 +36,11 @@ export class LocationService {
     });
   }
 
-  currentLocation(): Observable<any>{
+  currentLocation(): Observable<any> {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          const pos  = {
+          const pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
@@ -53,8 +53,32 @@ export class LocationService {
       );
     } else {
       // Browser doesn't support Geolocation
-      console.log('Browser doesnt support Geolocation');
+      console.error('Browser doesnt support Geolocation');
       return null;
     }
+  }
+
+  latLngToAddress(location: {
+    latitud: number;
+    longitud: number;
+  }): Observable<any> {
+    return new Observable<any>((observer) => {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        {
+          location,
+        },
+        (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            observer.next(results[0].formatted_address);
+            observer.complete();
+          } else {
+            console.log(
+              'Geocode no tuvo éxito por la siguiente razón: ' + status
+            );
+          }
+        }
+      );
+    });
   }
 }

@@ -1,0 +1,49 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+ion-content {
+  --background: rgba(255, 255, 255, 0.8);
+
+  ion-grid {
+    ion-row {
+      ion-col {
+        ion-item {
+          --background: transparent;
+          .profile-image {
+            /* Para alinear correctamente la imagen, independientemente de la altura del contenido: */
+            vertical-align: top;
+            display: inline-block;
+            /* Para centrar imágenes y subtítulos horizontalmente*/
+            text-align: center;
+            img {
+              border-radius: 50%;
+              width: 100%;
+            }
+            figcaption {
+              display: block;
+              color: #343539;
+              font-size: 0.8rem;
+            }
+          }
+          .profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+          }
+          ion-select::part(placeholder) {
+            font-size: 0.8rem;
+          }
+        }
+        ion-list {
+          background: transparent;
+          ion-item {
+            --background: transparent;
+            ion-label {
+              font-family: "Poppins", sans-serif;
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

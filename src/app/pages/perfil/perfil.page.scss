@@ -26,8 +26,10 @@ ion-content:not(#editProfile) {
           width: 100%;
           box-shadow: none;
           border-radius: 14px;
-          padding: 14px;
+          padding: 5px;
           background: rgba(255, 255, 255, 0.8);
+          height: 8rem;
+          margin: 4rem auto auto auto;
           ion-card-title {
             font-weight: 900;
             font-size: 0.8rem;
@@ -124,7 +126,7 @@ ion-content:not(#editProfile) {
       }
     }
   }
-  
+
   ion-modal {
     --background: rgba(255, 255, 255, 0.8) !important;
     ng-template {

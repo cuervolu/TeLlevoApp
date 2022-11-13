@@ -4,17 +4,18 @@ ion-content {
     url("/assets/signup.jpg") no-repeat center center / cover;
 }
 .login-section {
-  height: 80vh;
+  height: 100%;
   width: 100%;
   max-width: 500px;
   background: white;
   right: 0;
   left: 0;
   bottom: 0;
-  position: fixed;
-  margin: auto;
+  position: relative;
   border-top-left-radius: 46px;
   border-top-right-radius: 46px;
+  /* Arriba | Derecha | Abajo | Izquierda */
+  margin: 50% auto auto auto;
 
   .header {
     margin-top: 5px;
@@ -81,5 +82,13 @@ ion-content {
       font-family: "Poppins", sans-serif;
       font-weight: 400;
     }
+  }
+}
+
+@media (min-width: 760px) {
+  .login-section{
+    height: 80%;
+    position: fixed;
+    margin: auto;
   }
 }
