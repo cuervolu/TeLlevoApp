@@ -146,23 +146,6 @@ export class PassengerPage implements OnInit {
       }
     });
   }
-  watchPosition() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          const passengerPosition: Latlng = {
-            latitud: position.coords.latitude,
-            longitud: position.coords.latitude,
-          };
-        }
-      );
-    } else {
-      this.presentAlert(
-        '¡Ha ocurrido un error!',
-        'Tu sistema no soporta la Geolocalización'
-      );
-    }
-  }
 
   addMarker(position: any, passengerMap: any, label?: string) {
     const marker = new google.maps.Marker({
