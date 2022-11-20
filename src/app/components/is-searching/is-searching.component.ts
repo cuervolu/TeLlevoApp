@@ -36,6 +36,7 @@ export class IsSearchingComponent implements OnInit {
         .getChoferBySede(this.profile.sede, this.profile.uid)
         .subscribe((res) => {
           this.drivers = res;
+          this.drivers = this.drivers.sort((a, b) => a.precio - b.precio);
           this.loading = false;
         });
     });
