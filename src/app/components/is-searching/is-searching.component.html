@@ -38,8 +38,9 @@
     <ion-label class="ion-text-center" >Contratar Chofer</ion-label>
   </ion-list-header>
 
+
   <ng-container *ngFor="let driver of drivers" >
-  <ion-item lines="none" *ngIf="!loading" (click)="onSelectDriver(driver.uid)">
+  <ion-item lines="none" *ngIf="!loading && driver.vehiculo !== undefined" (click)="onSelectDriver(driver.uid)">
     <ion-grid fixed>
       <ion-row class="ion-padding ion-align-self-center">
         <ion-col size="4" sizeMd="2">
