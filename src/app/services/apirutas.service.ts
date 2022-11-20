@@ -52,7 +52,10 @@ export class ApirutasService {
     return from(setDoc(ref, { ...contratoRuta }));
   }
   getUbicaciones(): Observable<Ubicacion[]> {
-    return this.http.get<Ubicacion[]>(this.ubicacion);
+    const user = this.auth.currentUser;
+    return this.http
+      .get<Ubicacion[]>(this.ubicacion)
+      .pipe(map((res) => res.filter((response) => response.uid !== user.uid)));
   }
 
   sendLocation(latitud: number, longitud: number) {
@@ -62,7 +65,10 @@ export class ApirutasService {
       .subscribe((value) => {
         if (value.length > 0) {
           value.map((data) => {
-            console.log(' %c Iniciando método PUT', 'color: green; font-weight: bold; background-color: black;');
+            console.log(
+              ' %c Iniciando método PUT',
+              'color: green; font-weight: bold; background-color: black;'
+            );
             console.log('UID: ' + data.uid + ' ID: ' + data.id);
             return this.putUbicacion(
               data.id,
@@ -74,7 +80,10 @@ export class ApirutasService {
             });
           });
         } else {
-          console.log(' %c Iniciando método POST', 'color: red; font-weight: bold; background-color: black;');
+          console.log(
+            ' %c Iniciando método POST',
+            'color: red; font-weight: bold; background-color: black;'
+          );
           const data: Ubicacion = {
             ubicacion: [{ latitud, longitud }],
             uid: user.uid,
