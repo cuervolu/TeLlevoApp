@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { interval, of } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
 
 import { ApirutasService, DataService, UserService } from '../../services';
-import { Sede, UserProfile, Latlng } from '../../models';
+import { Sede, UserProfile } from '../../models';
 import { Ubicacion } from '../../models/ubicacion.interface';
 import * as moment from 'moment';
 
