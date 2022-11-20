@@ -354,7 +354,7 @@ export class ExplorarPage implements OnInit {
           text: 'Estoy seguro',
           role: 'confirm',
           handler: () => {
-            this.directionsDisplay.setMap(null);
+            this.directionsDisplay.setDirections({routes: []});
             this.modal.setCurrentBreakpoint(0.25);
             this.isDriving = false;
             this.presentToast(

@@ -28,6 +28,7 @@ export class PassengerPage implements OnInit {
   ubicaciones: Ubicacion[] = [];
   currentDate = moment().format('YYYY-MM-DD');
   choferProfile: UserProfile;
+
   constructor(
     private userService: UserService,
     private dataService: DataService,
