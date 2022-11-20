@@ -134,7 +134,7 @@ export class PassengerPage implements OnInit {
               position,
               label: {
                 text: this.choferProfile.username,
-                color: '#ffb800',
+                color: '#cd0c36',
                 fontSize: '30px',
                 fontWeight: 'bold',
               },
