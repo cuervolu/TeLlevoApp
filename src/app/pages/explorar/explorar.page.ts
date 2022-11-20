@@ -12,7 +12,9 @@ import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
 
 import { LocationService, ApirutasService, DataService } from '../../services';
-import { Sede } from '../../models';
+import { Latlng, Sede } from '../../models';
+import { mergeMap, takeWhile } from 'rxjs/operators';
+import { interval, of } from 'rxjs';
 
 interface LatLng {
   lat: number;
@@ -56,7 +58,7 @@ export class ExplorarPage implements OnInit {
 
   origin: any;
   destination: any;
-
+  enableTracker = true;
   originMarker: Marker;
   destinationMarker: Marker;
 
@@ -92,6 +94,7 @@ export class ExplorarPage implements OnInit {
   }
 
   ngOnInit() {
+    this.trackUserLocation();
     this.loadMap();
   }
 
@@ -100,6 +103,7 @@ export class ExplorarPage implements OnInit {
   }
 
   ionViewDidLeave() {
+    this.enableTracker = false;
     this.modal.dismiss();
   }
   listRoutes() {
@@ -108,7 +112,7 @@ export class ExplorarPage implements OnInit {
         console.log(data);
       },
       (e) => {
-        console.log(e);
+        console.error(e);
       }
     );
   }
@@ -173,6 +177,32 @@ export class ExplorarPage implements OnInit {
     });
   }
 
+  watchPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const latitud = position.coords.latitude;
+          const longitud = position.coords.longitude;
+          this.apiRutas.sendLocation(latitud, longitud);
+        }
+      );
+    } else {
+      this.presentAlert(
+        '¡Ha ocurrido un error!',
+        'Tu sistema no soporta la Geolocalización'
+      );
+    }
+  }
+
+  trackUserLocation() {
+    interval(30000)
+      .pipe(
+        takeWhile(() => this.enableTracker),
+        mergeMap(() => of(this.watchPosition()))
+      )
+      .subscribe();
+  }
+
   async panToCurrentLocation(map: any) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -192,7 +222,7 @@ export class ExplorarPage implements OnInit {
               strokeWeight: 2,
               fillColor: '#5384ED',
               strokeColor: '#ffffff',
-            }
+            },
           });
 
           // this.addMarker(pos, map, 'Estás aquí');
@@ -222,10 +252,9 @@ export class ExplorarPage implements OnInit {
           position: sede.coordenadas,
           label: `Duoc UC: ${sede.nombre}`,
           map,
-          icon: '/assets/collagueicon.png'
+          icon: '/assets/collagueicon.png',
         });
       }
-      console.log(this.sedes);
     });
   }
 

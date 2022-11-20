@@ -6,6 +6,8 @@ import { mergeMap, take } from 'rxjs/operators';
 
 import { ApirutasService, DataService, UserService } from '../../services';
 import { Sede, UserProfile, Latlng } from '../../models';
+import { Ubicacion } from '../../models/ubicacion.interface';
+import * as moment from 'moment';
 
 declare let google;
 @Component({
@@ -25,8 +27,9 @@ export class PassengerPage implements OnInit {
   //Latitud y Longitud de Duoc UC: Sede Puente Alto
   lat: any = -33.59767508016667;
   lng: any = -70.57894225397776;
-
-
+  ubicaciones: Ubicacion[] = [];
+  currentDate = moment().format('YYYY-MM-DD');
+  choferProfile: UserProfile;
   constructor(
     private userService: UserService,
     private dataService: DataService,
@@ -37,7 +40,6 @@ export class PassengerPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.trackUserLocation();
     this.loadMap();
     this.getDrivers();
   }
@@ -75,7 +77,7 @@ export class PassengerPage implements OnInit {
       fullscreenControl: false,
       mapId: '9a411300f76cb602',
     });
-
+    this.getChoferLocation(passengerMap);
     google.maps.event.addListenerOnce(passengerMap, 'idle', () => {
       console.log('Mapa Cargado');
       loading.dismiss();
@@ -116,7 +118,34 @@ export class PassengerPage implements OnInit {
       }
     });
   }
-
+  getChoferLocation(passengerMap: any) {
+    this.rutasService.getUbicaciones().subscribe((data) => {
+      this.ubicaciones = data;
+      for (const chofer of this.ubicaciones) {
+        const uid = chofer.uid;
+        this.userService.getChoferByUid(uid).subscribe((res) => {
+          this.choferProfile = res;
+          for (const ubicacion of chofer.ubicacion) {
+            const position = {
+              lat: ubicacion.latitud,
+              lng: ubicacion.longitud,
+            };
+            const marker = new google.maps.Marker({
+              position,
+              label: {
+                text: this.choferProfile.username,
+                color: '#ffb800',
+                fontSize: '30px',
+                fontWeight: 'bold',
+              },
+              map: passengerMap,
+              icon: '/assets/usericon.png',
+            });
+          }
+        });
+      }
+    });
+  }
   watchPosition() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -125,7 +154,6 @@ export class PassengerPage implements OnInit {
             latitud: position.coords.latitude,
             longitud: position.coords.latitude,
           };
-          this.rutasService.sendLocation(passengerPosition);
         }
       );
     } else {
@@ -134,12 +162,6 @@ export class PassengerPage implements OnInit {
         'Tu sistema no soporta la Geolocalización'
       );
     }
-  }
-
-  trackUserLocation() {
-    interval(30000)
-      .pipe(mergeMap(() => of(this.watchPosition())))
-      .subscribe();
   }
 
   addMarker(position: any, passengerMap: any, label?: string) {

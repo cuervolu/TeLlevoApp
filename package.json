@@ -39,6 +39,7 @@
     "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "firebase": "^9.10.0",
+    "moment": "^2.29.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

@@ -1,6 +1,7 @@
-import { Latlng } from './ruta.interface';
-
-export interface Ubicacion{
+export interface Ubicacion {
+  id?: number;
   uid: string;
-  ubicacion: Latlng;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  ubicacion: [{ latitud: number; longitud: number }];
+  fecha?: string;
 }
