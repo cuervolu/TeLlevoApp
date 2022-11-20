@@ -33,7 +33,7 @@ export class IsNotDrivingComponent implements OnInit {
     const alert = await this.alertCtrl.create({
       header: '¡Error!',
       subHeader: 'No posees un vehiculo registrado',
-      message: 'Si no posees unv vehículo, no puedes utilizar está página',
+      message: 'Si no posees un vehículo, no puedes utilizar está página',
       buttons: [
         {
           text: 'Ir a tu Perfil',
