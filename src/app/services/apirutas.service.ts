@@ -10,7 +10,7 @@ import { Auth } from '@angular/fire/auth';
 
 import { AuthService } from '../auth/auth.service';
 import { Chofer, ContratoRuta, Latlng, Pasajero, Ubicacion } from '../models';
-import * as moment from 'moment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +42,7 @@ export class ApirutasService {
       .pipe(retry(3));
   }
 
-  hireDriver(pasajero: Pasajero, chofer: Chofer, precio: number) {
+  hireDriver(pasajero: Pasajero[], chofer: Chofer, precio: number) {
     const contratoRuta: ContratoRuta = {
       chofer,
       pasajero,
