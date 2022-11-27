@@ -58,10 +58,7 @@ export class LocationService {
     }
   }
 
-  latLngToAddress(location: {
-    latitud: number;
-    longitud: number;
-  }): Observable<any> {
+  latLngToAddress(location: { lat: number; lng: number }): Observable<any> {
     return new Observable<any>((observer) => {
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode(
