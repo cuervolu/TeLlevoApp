@@ -108,6 +108,30 @@ export class UserService {
     }
   }
 
+  async enEspera(enEspera: boolean) {
+    const user = this.auth.currentUser;
+    const refD = doc(this.firestore, 'users', user.uid);
+    try {
+      await from(updateDoc(refD, { enEspera }));
+      return true;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
+  async enRuta(enRuta: boolean) {
+    const user = this.auth.currentUser;
+    const refD = doc(this.firestore, 'users', user.uid);
+    try {
+      await from(updateDoc(refD, { enRuta }));
+      return true;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
   async precioViaje(precio: number) {
     const user = this.auth.currentUser;
     const refD = doc(this.firestore, 'users', user.uid);
