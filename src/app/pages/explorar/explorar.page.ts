@@ -13,7 +13,7 @@ import { Marker } from '@capacitor/google-maps';
 
 import { LocationService, ApirutasService, DataService } from '../../services';
 import { Latlng, Sede } from '../../models';
-import { mergeMap, takeWhile } from 'rxjs/operators';
+import { mergeMap, startWith, takeWhile } from 'rxjs/operators';
 import { interval, of } from 'rxjs';
 
 interface LatLng {
@@ -88,7 +88,7 @@ export class ExplorarPage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private ngZone: NgZone,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
   ) {
     // this.listRoutes();
   }
@@ -105,16 +105,6 @@ export class ExplorarPage implements OnInit {
   ionViewDidLeave() {
     this.enableTracker = false;
     this.modal.dismiss();
-  }
-  listRoutes() {
-    this.apiRutas.getRutas().subscribe(
-      (data) => {
-        console.log(data);
-      },
-      (e) => {
-        console.error(e);
-      }
-    );
   }
 
   async loadMap() {
@@ -197,6 +187,7 @@ export class ExplorarPage implements OnInit {
   trackUserLocation() {
     interval(30000)
       .pipe(
+        startWith(0),
         takeWhile(() => this.enableTracker),
         mergeMap(() => of(this.watchPosition()))
       )
@@ -314,31 +305,6 @@ export class ExplorarPage implements OnInit {
         console.log('Origen: ' + origin);
         console.log(('Destino: ' + this.destination) as unknown as LatLng);
       });
-  }
-
-  createApiRoute(origin, address, destination) {
-    const route = {
-      origen: JSON.stringify(origin),
-      destino: JSON.stringify(destination),
-      // pasajero: [
-      //     {
-      //         uid: "MgOK4BWm0ad3EgDVcG4BFDwD8lN2",
-      //         waypoint: {
-      //             latitud: -33.43287728865121,
-      //             longitud: -70.6155758307221
-      //         }
-      //     },
-      //     {
-      //         uid: 1UKMBd7QHwfIvRLVewHe31mBrXE2",
-      //         waypoint: {
-      //             latitud: -33.605302759388024,
-      //             longitud: -70.54609684672977
-      //         }
-      //     }
-      // ],
-      direccion: address,
-      chofer: 'QVWwnxopTbPUpgerIcPnVnTtVA82',
-    };
   }
 
   async cancelRoute() {
