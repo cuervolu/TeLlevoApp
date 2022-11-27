@@ -68,7 +68,7 @@ ion-content {
   }
 
   .container {
-    padding: 6px 20px;
+    // padding: 6px 20px;
     color: #ffffff;
     h2 {
       font-weight: 700;
@@ -82,23 +82,87 @@ ion-content {
       --border-radius: 14px;
       color: #ffffff;
       font-weight: 600;
+      width: 100%;
 
       ion-label {
         padding: 6px 0;
 
         h4 {
           font-weight: 600;
-          font-size: 16px;
+          font-size: 0.5rem;
         }
         h6 {
           color: rgba(255, 255, 255, 0.66);
-          font-size: 0.6rem;
+          font-size: 0.5rem;
         }
       }
     }
 
     h2 {
       padding-bottom: 8px;
+    }
+  }
+}
+
+@media (min-width: 760px) {
+  ion-header {
+    ion-item {
+      h3 {
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  ion-content {
+    .slides {
+      ion-slides {
+        ion-slide {
+          ion-card {
+            ion-card-header {
+              .main {
+                margin: auto;
+                display: block;
+                img {
+                  width: 60%;
+                }
+              }
+            }
+
+            ion-card-content {
+              ion-card-title {
+                h3 {
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .container {
+      h2 {
+        font-size: 2rem;
+        text-align: center;
+      }
+      .items {
+        height: 100% !important;
+        width: 100% !important;
+        align-items: center !important;
+        justify-content: center !important;
+        ion-item {
+          ion-label {
+            h4 {
+              font-size: 1rem;
+            }
+            h6 {
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
     }
   }
 }
