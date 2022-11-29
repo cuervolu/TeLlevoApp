@@ -14,4 +14,6 @@ export interface UserProfile {
   precio?: number;
   sede?: string;
   vehiculo?: Vehicle;
+  enEspera?: boolean;
+  enRuta?: boolean;
 }

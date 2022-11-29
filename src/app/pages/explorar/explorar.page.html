@@ -34,7 +34,8 @@
           </ion-item>
         </ion-list>
         <div *ngIf="!isDriving;">
-          <app-is-not-driving></app-is-not-driving>
+          <app-is-not-driving (sendRutaToParent)="onSelectPasajero($event)" (sendRutaIdToParent)="getRutaId($event)">
+          </app-is-not-driving>
         </div>
         <div *ngIf="isDriving">
           <ion-grid fixed>

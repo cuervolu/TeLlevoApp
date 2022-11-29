@@ -65,6 +65,10 @@ export class UserService {
     const userDocRef = doc(this.firestore, `users/${uid}`);
     return docData(userDocRef);
   }
+  getPassengerByUid(uid: string): Observable<any> {
+    const userDocRef = doc(this.firestore, `users/${uid}`);
+    return docData(userDocRef);
+  }
 
   addUser(user: UserProfile): Observable<any> {
     const refD = doc(this.firestore, 'users', user.uid);
@@ -108,15 +112,26 @@ export class UserService {
     }
   }
 
-  async enEspera(enEspera: boolean) {
-    const user = this.auth.currentUser;
-    const refD = doc(this.firestore, 'users', user.uid);
-    try {
-      await from(updateDoc(refD, { enEspera }));
-      return true;
-    } catch (e) {
-      console.error(e);
-      return null;
+  async enEspera(enEspera: boolean, userUid?: string) {
+    if (userUid !== undefined) {
+      const refD = doc(this.firestore, 'users', userUid);
+      try {
+        await from(updateDoc(refD, { enEspera }));
+        return true;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    } else {
+      const user = this.auth.currentUser;
+      const refD = doc(this.firestore, 'users', user.uid);
+      try {
+        await from(updateDoc(refD, { enEspera }));
+        return true;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
     }
   }
 

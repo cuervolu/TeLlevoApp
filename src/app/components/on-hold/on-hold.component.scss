@@ -1,0 +1,77 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+ion-spinner {
+  display: block;
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  stroke: #444;
+  fill: #222;
+}
+
+ion-list {
+  background: transparent;
+  ion-grid {
+    background: rgba(56, 128, 255, 0.55);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background-image: url( '/assets/wave.svg' );
+    background-repeat: no-repeat;
+    background-size: cover;
+    ion-row {
+      ion-col {
+        ion-item {
+          --background: transparent;
+          .profile-image {
+            /* Para alinear correctamente la imagen, independientemente de la altura del contenido: */
+            vertical-align: top;
+            display: inline-block;
+            /* Para centrar imágenes y subtítulos horizontalmente*/
+            text-align: center;
+            img {
+              border-radius: 50%;
+              border: 10px solid  white;
+            }
+            figcaption {
+              display: block;
+              color: rgb(185, 185, 185);
+              font-size: 0.8rem;
+            }
+          }
+          ion-label{
+            --color: white;
+          }
+          .profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  ion-list {
+    ion-grid {
+      ion-row {
+        ion-col {
+          ion-item {
+            .profile-image {
+              img {
+                width: 50%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

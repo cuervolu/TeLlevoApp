@@ -4,6 +4,8 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { UserService } from 'src/app/services/users.service';
 import { UserProfile } from 'src/app/models';
 import { DriverProfileComponent } from '../driver-profile/driver-profile.component';
+import { ContratoRuta } from '../../models/ruta.interface';
+import { ApirutasService } from 'src/app/services';
 
 @Component({
   selector: 'app-is-searching',
@@ -14,10 +16,16 @@ export class IsSearchingComponent implements OnInit {
   profile = null;
   loading = false;
   drivers: UserProfile[] = [];
+  driver: UserProfile = null;
+  choferData: UserProfile;
+  rutaId: string;
+  ruta: ContratoRuta;
+
+
   constructor(
     private userService: UserService,
-    private alertCtrl: AlertController,
     private modalCtrl: ModalController,
+    private rutas: ApirutasService
   ) {}
 
   ngOnInit() {
@@ -28,6 +36,7 @@ export class IsSearchingComponent implements OnInit {
       this.loading = false;
     });
   }
+
   getDrivers() {
     this.loading = true;
     this.userService.getUserProfile().subscribe((data) => {
@@ -42,6 +51,18 @@ export class IsSearchingComponent implements OnInit {
     });
   }
 
+  saveChoferInLS(chofer: UserProfile){
+    localStorage.setItem('chofer', JSON.stringify(chofer));
+  }
+
+  getRutaId(e){
+    this.rutaId = e;
+    this.choferData = JSON.parse(localStorage.getItem('chofer'));
+    this.rutas.getRutas(this.choferData,this.rutaId).subscribe((data) => {
+      this.ruta = data as ContratoRuta;
+    });
+  }
+
   async onSelectDriver(uid: string) {
     const modal = await this.modalCtrl.create({
       component: DriverProfileComponent,
@@ -51,6 +72,13 @@ export class IsSearchingComponent implements OnInit {
       },
     });
     modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.userService.enEspera(true);
+      this.driver = data;
+      this.saveChoferInLS(this.driver);
+    }
   }
 
 }

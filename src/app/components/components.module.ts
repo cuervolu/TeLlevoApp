@@ -7,6 +7,7 @@ import { CarFormComponent } from './car-form/car-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DriverProfileComponent } from './driver-profile/driver-profile.component';
 import { IsSearchingComponent } from './is-searching/is-searching.component';
+import { OnHoldComponent } from './on-hold/on-hold.component';
 
 
 
@@ -16,7 +17,8 @@ import { IsSearchingComponent } from './is-searching/is-searching.component';
     IsNotDrivingComponent,
     CarFormComponent,
     DriverProfileComponent,
-    IsSearchingComponent
+    IsSearchingComponent,
+    OnHoldComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { IsSearchingComponent } from './is-searching/is-searching.component';
     IsNotDrivingComponent,
     CarFormComponent,
     DriverProfileComponent,
-    IsSearchingComponent
+    IsSearchingComponent,
+    OnHoldComponent
   ]
 })
 export class ComponentsModule { }

@@ -1,70 +1,77 @@
 <!-- Skeleton Text -->
 <ion-list lines="none" mode="ios" *ngIf="loading">
   <ion-list-header>
-    <ion-label class="ion-text-center" ><ion-skeleton-text [animated]="true" style="width: 90%;"></ion-skeleton-text></ion-label>
+    <ion-label class="ion-text-center">
+      <ion-skeleton-text [animated]="true" style="width: 90%;"></ion-skeleton-text>
+    </ion-label>
   </ion-list-header>
 
   <ng-container *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]">
-  <ion-item lines="none">
-    <ion-grid fixed>
-      <ion-row class="ion-padding ion-align-self-center">
-        <ion-col size="4" sizeMd="2">
-          <ion-avatar>
-            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-          </ion-avatar>
-        </ion-col>
-        <ion-col size="8" sizeMd="10">
-          <ion-label>
-            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-            <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-          </ion-label>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-align-self-end">
-        <ion-col size="12">
-          <ion-item class="driverPrice">
-            <ion-skeleton-text [animated]="true" style="width: 50%;"></ion-skeleton-text>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-</ng-container>
+    <ion-item lines="none">
+      <ion-grid fixed>
+        <ion-row class="ion-padding ion-align-self-center">
+          <ion-col size="4" sizeMd="2">
+            <ion-avatar>
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="8" sizeMd="10">
+            <ion-label>
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-self-end">
+          <ion-col size="12">
+            <ion-item class="driverPrice">
+              <ion-skeleton-text [animated]="true" style="width: 50%;"></ion-skeleton-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ng-container>
 </ion-list>
 <!-- End Skeleton Text -->
+<ng-container *ngIf="!loading">
+  <ion-list lines="none" mode="ios" *ngIf="profile.enEspera === undefined || profile.enEspera === false; else onHold">
+    <ion-list-header>
+      <ion-label class="ion-text-center">Contratar Chofer</ion-label>
+    </ion-list-header>
 
-<ion-list lines="none" mode="ios">
-  <ion-list-header>
-    <ion-label class="ion-text-center" >Contratar Chofer</ion-label>
-  </ion-list-header>
-
-
-  <ng-container *ngFor="let driver of drivers" >
-  <ion-item lines="none" *ngIf="!loading && driver.vehiculo !== undefined" (click)="onSelectDriver(driver.uid)">
-    <ion-grid fixed>
-      <ion-row class="ion-padding ion-align-self-center">
-        <ion-col size="4" sizeMd="2">
-          <ion-avatar>
-            <img [src]="driver.imageUrl ?? 'assets/default.jpg'" />
-          </ion-avatar>
-        </ion-col>
-        <ion-col size="8" sizeMd="10">
-          <ion-label>
-            <h2>{{driver.firstName}} {{driver.lastName}}</h2>
-            <h4>{{driver.username}}</h4>
-          </ion-label>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-align-self-end">
-        <ion-col size="12">
-          <ion-item class="driverPrice">
-            <small>{{driver.vehiculo.marca}} {{driver.vehiculo.modelo}} - {{driver.vehiculo.anio}}</small>
-            <ion-badge slot="end" [color]="driver.precio > 2500 ? 'danger' : 'primary'">{{driver.precio |
-              currency:'CLP':'symbol-narrow'}}</ion-badge>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
+    <ng-container *ngFor="let driver of drivers">
+      <ion-item lines="none" *ngIf="!loading && driver.vehiculo !== undefined" (click)="onSelectDriver(driver.uid)">
+        <ion-grid fixed>
+          <ion-row class="ion-padding ion-align-self-center">
+            <ion-col size="4" sizeMd="2">
+              <ion-avatar>
+                <img [src]="driver.imageUrl ?? 'assets/default.jpg'" />
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="8" sizeMd="10">
+              <ion-label>
+                <h2>{{driver.firstName}} {{driver.lastName}}</h2>
+                <h4>{{driver.username}}</h4>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-align-self-end">
+            <ion-col size="12">
+              <ion-item class="driverPrice">
+                <small>{{driver.vehiculo.marca}} {{driver.vehiculo.modelo}} - {{driver.vehiculo.anio}}</small>
+                <ion-badge slot="end" [color]="driver.precio > 2500 ? 'danger' : 'primary'">{{driver.precio |
+                  currency:'CLP':'symbol-narrow'}}</ion-badge>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-container>
+  </ion-list>
 </ng-container>
-</ion-list>
+
+<ng-template #onHold>
+  <app-on-hold [chofer]="driver" (sendRutaIdToParent)="getRutaId($event)"></app-on-hold>
+</ng-template>
+

@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { ApirutasService, DataService, UserService } from '../../services';
 import { Sede, UserProfile } from '../../models';
 import { Ubicacion } from '../../models/ubicacion.interface';
-import * as moment from 'moment';
-
+import { map } from 'rxjs/operators';
+import { Auth } from '@angular/fire/auth';
+import { format } from 'date-fns';
 declare let google;
 @Component({
   selector: 'app-passenger',
@@ -26,8 +27,8 @@ export class PassengerPage implements OnInit {
   lat: any = -33.59767508016667;
   lng: any = -70.57894225397776;
   ubicaciones: Ubicacion[] = [];
-  currentDate = moment().format('YYYY-MM-DD');
   choferProfile: UserProfile;
+  today = format(new Date(), 'dd-MM-yyyy');
 
   constructor(
     private userService: UserService,
@@ -35,10 +36,12 @@ export class PassengerPage implements OnInit {
     private rutasService: ApirutasService,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private auth: Auth
   ) {}
 
   ngOnInit() {
+    console.log(this.today);
     this.loadMap();
     this.getDrivers();
   }
@@ -118,32 +121,36 @@ export class PassengerPage implements OnInit {
     });
   }
   getChoferLocation(passengerMap: any) {
-    this.rutasService.getUbicaciones().subscribe((data) => {
-      this.ubicaciones = data;
-      for (const chofer of this.ubicaciones) {
-        const uid = chofer.uid;
-        this.userService.getChoferByUid(uid).subscribe((res) => {
-          this.choferProfile = res;
-          for (const ubicacion of chofer.ubicacion) {
-            const position = {
-              lat: ubicacion.latitud,
-              lng: ubicacion.longitud,
-            };
-            const marker = new google.maps.Marker({
-              position,
-              label: {
-                text: this.choferProfile.username,
-                color: '#cd0c36',
-                fontSize: '30px',
-                fontWeight: 'bold',
-              },
-              map: passengerMap,
-              icon: '/assets/usericon.png',
-            });
-          }
-        });
-      }
-    });
+    const user = this.auth.currentUser;
+    this.rutasService
+      .getUbicaciones()
+      .pipe(map((res) => res.filter((response) => response.uid !== user.uid && response.fecha === this.today)))
+      .subscribe((data) => {
+        this.ubicaciones = data;
+        for (const chofer of this.ubicaciones) {
+          const uid = chofer.uid;
+          this.userService.getChoferByUid(uid).subscribe((res) => {
+            this.choferProfile = res;
+            for (const ubicacion of chofer.ubicacion) {
+              const position = {
+                lat: ubicacion.latitud,
+                lng: ubicacion.longitud,
+              };
+              const marker = new google.maps.Marker({
+                position,
+                label: {
+                  text: this.choferProfile.username,
+                  color: '#cd0c36',
+                  fontSize: '30px',
+                  fontWeight: 'bold',
+                },
+                map: passengerMap,
+                icon: '/assets/usericon.png',
+              });
+            }
+          });
+        }
+      });
   }
 
   addMarker(position: any, passengerMap: any, label?: string) {
@@ -179,7 +186,7 @@ export class PassengerPage implements OnInit {
           // this.addMarker(pos, map, 'Estás aquí');
         },
         (e) => {
-          console.error(e);
+          console.log(e);
           this.presentAlert(
             '¡Ha ocurrido un error!',
             'Vuelve a intentarlo más tarde'
@@ -199,6 +206,7 @@ export class PassengerPage implements OnInit {
     this.modal.dismiss();
     this.router.navigateByUrl(`/tabs/${name}`);
   }
+
   async presentAlert(header: string, message: string) {
     const alert = await this.alertCtrl.create({
       header,

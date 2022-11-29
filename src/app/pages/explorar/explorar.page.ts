@@ -11,10 +11,16 @@ import { IonModal } from '@ionic/angular';
 import { NgZone } from '@angular/core';
 import { Marker } from '@capacitor/google-maps';
 
-import { LocationService, ApirutasService, DataService } from '../../services';
-import { Latlng, Sede } from '../../models';
+import {
+  LocationService,
+  ApirutasService,
+  DataService,
+  UserService,
+} from '../../services';
+import { Sede, ContratoRuta, UserProfile } from '../../models';
 import { mergeMap, startWith, takeWhile } from 'rxjs/operators';
 import { interval, of } from 'rxjs';
+import { IsNotDrivingComponent } from '../../components/is-not-driving/is-not-driving.component';
 
 interface LatLng {
   lat: number;
@@ -63,32 +69,24 @@ export class ExplorarPage implements OnInit {
   destinationMarker: Marker;
 
   isDriving = false;
+  ruta: ContratoRuta;
+  rutaId: string;
+  wayPoints: WayPoint[] = [];
 
-  wayPoints: WayPoint[] = [
-    {
-      location: { lat: -33.49975279313583, lng: -70.61630989860768 }, // Duoc UC: Sede San Joaquín
-      stopover: true,
-    },
-    {
-      location: { lat: -33.51584339127643, lng: -70.59809265770892 }, // Duoc UC: Sede Plaza Vespucio
-      stopover: true,
-    },
-    {
-      location: { lat: -33.43287728865121, lng: -70.6155758307221 }, // Duoc UC: Antonio Varas
-      stopover: true,
-    },
-  ];
+  perfil: UserProfile;
 
   constructor(
     private locationService: LocationService,
     private apiRutas: ApirutasService,
     private dataService: DataService,
+    private userService: UserService,
+    private rutas: ApirutasService,
     private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
     private router: Router,
     private alertCtrl: AlertController,
     private ngZone: NgZone,
-    private toastCtrl: ToastController,
+    private toastCtrl: ToastController
   ) {
     // this.listRoutes();
   }
@@ -96,6 +94,9 @@ export class ExplorarPage implements OnInit {
   ngOnInit() {
     this.trackUserLocation();
     this.loadMap();
+    this.userService
+      .getUserProfile()
+      .subscribe((data) => (this.perfil = data as UserProfile));
   }
 
   ionViewDidEnter() {
@@ -157,6 +158,74 @@ export class ExplorarPage implements OnInit {
     //Añade direcciones de ruta para el usuario
     this.directionsDisplay.setMap(map);
     this.directionsDisplay.setPanel(indicatorsElement);
+  }
+
+  getRutaId(e) {
+    this.rutaId = e;
+  }
+
+  enEspera() {
+    const enEspera = this.apiRutas.rutaEnEspera(false, this.rutaId);
+    if (enEspera) {
+      console.log(`Usuario en espera: EXITOSO`);
+    } else {
+      console.error(`Usuario en espera: FALLIDO`);
+    }
+  }
+
+  iniciarEstadoRuta(rutaId: string) {
+    const inicializar = this.rutas.iniciarRuta(rutaId, true);
+    if (inicializar) {
+      console.log(`Ruta inicializada`);
+    } else {
+      console.error(`Ruta no inicializada`);
+    }
+  }
+  async onSelectPasajero(e) {
+    this.ruta = e;
+    const alert = await this.alertCtrl.create({
+      header: 'Iniciar Viaje',
+      message: `¿Estás seguro de que quieres iniciar el viaje con ${this.ruta.pasajero.firstName}?`,
+      buttons: [
+        {
+          text: 'No, quiero volver atrás',
+          role: 'cancel',
+        },
+        {
+          text: 'Estoy seguro',
+          role: 'confirm',
+          handler: async () => {
+            this.iniciarEstadoRuta(this.rutaId);
+            this.enEspera();
+            this.userService
+              .getPassengerByUid(this.ruta.pasajero.uid)
+              .subscribe((data) => {
+                console.log(data);
+              });
+            const pasajeroWaypoint: WayPoint = {
+              location: {
+                lat: this.ruta.pasajero.waypoint.latitud,
+                lng: this.ruta.pasajero.waypoint.longitud,
+              },
+              stopover: this.ruta.pasajero.waypoint.stopover,
+            };
+            this.wayPoints.push(pasajeroWaypoint);
+            const originData = await this.geolocation.getCurrentPosition();
+            //*Desestructurar originData para solo obtener la latitud y la longitud
+            const origin = {
+              lat: originData.coords.latitude,
+              lng: originData.coords.longitude,
+            };
+            this.destiny = this.ruta.direccion;
+            this.destination = JSON.stringify(this.ruta.destino);
+            this.calculateRoute(origin, this.ruta.destino, this.wayPoints);
+          },
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
   }
 
   addMarker(position: any, map: any, label?: string) {
@@ -277,12 +346,19 @@ export class ExplorarPage implements OnInit {
           this.directionsDisplay.setDirections(response);
           this.modal.setCurrentBreakpoint(0.25);
           this.isDriving = true;
+          this.userService.enRuta(true);
+          this.presentToast(
+            'Viaje iniciado exitosamente',
+            'success',
+            'checkmark-circle-outline'
+          );
         } else {
           await this.presentToast('No se pudo mostrar la dirección', 'danger');
         }
       }
     );
   }
+
   async geocodeAddress(item: any) {
     this.destiny = item.description;
     //*Conseguir la data sobre la ubicación del usuario
@@ -299,7 +375,6 @@ export class ExplorarPage implements OnInit {
       .reverseGeocode(item.description)
       .subscribe(async (res) => {
         this.destination = res;
-        console.log(res);
         this.calculateRoute(origin, this.destination, this.wayPoints);
         // this.createApiRoute(origin, item.description, this.destination);
         console.log('Origen: ' + origin);
@@ -320,9 +395,15 @@ export class ExplorarPage implements OnInit {
           text: 'Estoy seguro',
           role: 'confirm',
           handler: () => {
-            this.directionsDisplay.setDirections({routes: []});
+            this.directionsDisplay.setDirections({ routes: [] });
             this.modal.setCurrentBreakpoint(0.25);
             this.isDriving = false;
+            this.userService.enRuta(false);
+            if(this.rutaId !== undefined){
+              this.rutas.cancelarRuta(this.perfil, this.rutaId);
+              this.rutas.iniciarRuta(this.rutaId, false);
+            }
+            this.wayPoints.splice(0);
             this.presentToast(
               'Viaje cancelado exitosamente',
               'success',

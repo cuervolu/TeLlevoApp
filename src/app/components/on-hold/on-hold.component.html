@@ -1,0 +1,49 @@
+<ng-container *ngIf="loading">
+  <ion-spinner name="crescent"></ion-spinner>
+</ng-container>
+
+<ng-container *ngIf="!loading">
+  <ion-list lines="none" mode="ios">
+    <ion-list-header>
+      <ion-label class="ion-text-center" *ngIf="rutaData.enEspera">En Espera...</ion-label>
+      <ion-label class="ion-text-center" *ngIf="!rutaData.enEspera">En Ruta</ion-label>
+    </ion-list-header>
+
+    <ion-grid fixed>
+      <ion-row class="ion-padding ion-align-self-center">
+        <ion-col size="auto" sizeMd="6">
+          <ion-item>
+            <div class="profile-image">
+              <img [src]="profile.imageUrl ?? '/assets/default.jpg'" alt="Foto de Perfil">
+              <figcaption class="ion-text-wrap">{{profile.username}}</figcaption>
+            </div>
+          </ion-item>
+        </ion-col>
+        <ion-col size="auto" sizeMd="6">
+          <ion-list>
+            <ion-item lines="none" mode="ios">
+              <ion-label class="ion-text-wrap ion-text-capitalize profile-name">{{profile.firstName}}
+                {{profile.lastName}}
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label class="ion-text-wrap ion-text-center"><b>Destino: </b>{{rutaData.direccion}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label><b>Total:</b></ion-label>
+              <ion-badge slot="end" [color]="rutaData.precio > 2500 ? 'danger' : 'primary'">{{rutaData.precio
+                |currency:'CLP':'symbol-narrow'}}</ion-badge>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="cancelar()" expand="block" fill="solid" shape="round" color="danger">
+            Cancelar Viaje
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ng-container>

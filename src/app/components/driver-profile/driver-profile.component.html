@@ -14,41 +14,44 @@
         <ion-col size="6" sizeMd="4" sizeLg="6">
           <ion-item lines="none" mode="ios">
             <div class="profile-image">
-              <img [src]="profile.imageUrl ?? '/assets/default.jpg'" alt="Foto de Perfil">
-              <figcaption class="ion-text-wrap">{{profile.username}}</figcaption>
+              <img [src]="chofer.imageUrl ?? '/assets/default.jpg'" alt="Foto de Perfil">
+              <figcaption class="ion-text-wrap">{{chofer.username}}</figcaption>
             </div>
           </ion-item>
         </ion-col>
         <ion-col size="6" sizeMd="8" sizeLg="6">
           <ion-item lines="none" mode="ios">
-            <ion-label class="ion-text-wrap ion-text-capitalize profile-name">{{profile.firstName}} {{profile.lastName}}
+            <ion-label class="ion-text-wrap ion-text-capitalize profile-name">{{chofer.firstName}} {{chofer.lastName}}
             </ion-label>
           </ion-item>
-          <ion-item lines="none" mode="ios">
+          <!-- <ion-item lines="none" mode="ios">
             <ion-label>
-              <!-- TODO: Agregar sistema de medición de viajes y reputación -->
+              TODO: Agregar sistema de medición de viajes y reputación
               <p>Viajes: </p>
               <p>Reputación: </p>
             </ion-label>
-          </ion-item>
+          </ion-item> -->
         </ion-col>
       </ion-row>
       <!-- Información de Vehículo -->
       <ion-row>
         <ion-col size="12">
-          <ng-container *ngIf="profile.vehiculo!==undefined; else noVehicle">
+          <ng-container *ngIf="chofer.vehiculo!==undefined; else noVehicle">
             <ion-list lines="none">
               <ion-list-header>
                 <ion-label>Vehículo</ion-label>
               </ion-list-header>
               <ion-item lines="none" mode="ios">
                 <ion-label class="profile-vehicle-data">Modelo:</ion-label>
-                <ion-label class="ion-text-wrap">{{profile.vehiculo.marca}} {{profile.vehiculo.modelo}}
-                  {{profile.vehiculo.anio}}
+                <ion-label class="ion-text-wrap">{{chofer.vehiculo.marca}} {{chofer.vehiculo.modelo}}
+                  {{chofer.vehiculo.anio}}
                 </ion-label>
               </ion-item>
               <ion-item lines="none" mode="ios">
-                <ion-label class="ion-text-wrap profile-vehicle-data">Asientos Disponibles: </ion-label>
+                <ion-label class="ion-text-wrap profile-vehicle-data" [hidden]="newPrecio > 0">Asientos Disponibles:
+                  {{asientosDisponibles}} </ion-label>
+                <ion-label class="ion-text-wrap profile-vehicle-data" *ngIf="newPrecio > 0">Asientos Disponibles:
+                  {{newAsientosDisponibles}} </ion-label>
               </ion-item>
             </ion-list>
           </ng-container>
@@ -73,16 +76,16 @@
       <ion-row>
         <ion-col size="12">
           <ion-item lines="none" mode="ios">
-            <ion-button expand="block" fill="solid" shape="round" [color]="profile.precio > 2500 ? 'danger' : 'primary'"
+            <ion-button expand="block" fill="solid" shape="round" [color]="chofer.precio > 2500 ? 'danger' : 'primary'"
               slot="start" [hidden]="newPrecio > 0">
-              {{profile.precio |currency:'CLP':'symbol-narrow'}}
+              {{chofer.precio |currency:'CLP':'symbol-narrow'}}
             </ion-button>
             <ion-button expand="block" fill="solid" shape="round" [color]="newPrecio > 2500 ? 'danger' : 'primary'"
               slot="start" *ngIf="newPrecio > 0">
               {{newPrecio |currency:'CLP':'symbol-narrow'}}
             </ion-button>
             <ion-select interface="popover" placeholder="Acompañantes" slot="end" (ionChange)="onSelect($event)">
-              <ion-select-option *ngFor="let number of [1,2,3,4]; let i = index" [value]="i+1">{{i+1}}
+              <ion-select-option *ngFor="let number of [1,2,3,4,5]; let i = index" [value]="i">{{i}}
               </ion-select-option>
             </ion-select>
           </ion-item>
@@ -91,7 +94,8 @@
       <!-- Botón de contratar -->
       <ion-row>
         <ion-col size="12">
-          <ion-button (click)="contratar()" expand="block" fill="solid" shape="round" color="primary">
+          <ion-button (click)="contratar()" expand="block" fill="solid" shape="round" color="primary"
+            [disabled]="newPrecio === undefined || newAsientosDisponibles === 4 ">
             Contratar
           </ion-button>
         </ion-col>
