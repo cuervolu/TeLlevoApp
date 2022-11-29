@@ -288,7 +288,7 @@ export class ExplorarPage implements OnInit {
           // this.addMarker(pos, map, 'Estás aquí');
         },
         (e) => {
-          console.log(e);
+          console.log(`Error en GeoLocation con código ${e.code}, Mensaje: ${e.message}` );
           this.presentAlert(
             '¡Ha ocurrido un error!',
             'Vuelve a intentarlo más tarde'
