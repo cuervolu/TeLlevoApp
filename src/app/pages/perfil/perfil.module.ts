@@ -8,7 +8,7 @@ import { PerfilPageRoutingModule } from './perfil-routing.module';
 
 import { PerfilPage } from './perfil.page';
 import { ComponentsModule } from '../../components/components.module';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,7 +16,8 @@ import { ComponentsModule } from '../../components/components.module';
     IonicModule,
     PerfilPageRoutingModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    ImageCropperModule
   ],
   declarations: [PerfilPage]
 })

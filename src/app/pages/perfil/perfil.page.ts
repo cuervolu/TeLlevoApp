@@ -30,13 +30,9 @@ import { AuthService } from '../../auth/auth.service';
 import { UserService, DataService } from '../../services';
 import { CarFormComponent } from '../../components/car-form/car-form.component';
 
-const IMAGE_DIR = 'stored-images';
 
-interface LocalFile {
-  name: string;
-  path: string;
-  data: string;
-}
+
+const IMAGE_DIR = 'stored-images';
 
 @Component({
   selector: 'app-perfil',
@@ -45,7 +41,6 @@ interface LocalFile {
 })
 export class PerfilPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
-
   enablePaymentRange: boolean;
 
   driverPrice: RangeValue;
@@ -201,11 +196,11 @@ export class PerfilPage implements OnInit {
   async changeImage() {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: false,
+      allowEditing: true,
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos,
       width: 1080,
-      height: 1080
+      height: 1080,
     });
     if (image) {
       const loading = await this.loadingCtrl.create({

@@ -42,6 +42,8 @@
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "date-fns": "^2.29.3",
     "firebase": "^9.10.0",
+    "hammerjs": "^2.0.8",
+    "ngx-image-cropper": "^6.3.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
