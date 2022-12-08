@@ -173,7 +173,7 @@ export class UserService {
 
   async uploadImage(cameraFile: Photo) {
     const user = this.auth.currentUser;
-    const path = `uploads/${user.uid}/profile.png`;
+    const path = `uploads/${user.uid}/profile.jpeg`;
     const storageRef = ref(this.storage, path);
     try {
       await uploadString(storageRef, cameraFile.base64String, 'base64');
