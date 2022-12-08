@@ -46,8 +46,6 @@ export class LoginPage implements OnInit {
     await loading.dismiss();
     if (user) {
       this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
-    } else {
-      this.showAlert('Ha ocurrido un error', 'Por favor, inténtelo de nuevo');
     }
   }
 

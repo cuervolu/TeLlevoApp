@@ -5,17 +5,17 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  UserCredential,
 } from '@angular/fire/auth';
 import { confirmPasswordReset, sendPasswordResetEmail } from 'firebase/auth';
-import { from, Observable } from 'rxjs';
+import { from } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   currentUser$ = authState(this.auth);
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth, private toastCtrl: ToastController) {}
 
   signup(email: string, password: string) {
     try {
@@ -25,6 +25,10 @@ export class AuthService {
       return user;
     } catch (e) {
       console.log(e);
+      console.log('Código de Error: '+e.code);
+      if (e.code === 'auth/email-already-in-use') {
+        this.presentToast('El email ya se encuentra en uso', 'danger');
+      }
       return null;
     }
   }
@@ -35,6 +39,23 @@ export class AuthService {
       return user;
     } catch (e) {
       console.log(e);
+      let msg: string;
+      switch (e.code) {
+        case 'auth/wrong-password':
+          msg = 'Email o Contraseña incorrectos.';
+          break;
+        case 'auth/user-not-found':
+          msg = 'Usuario no encontrado';
+          break;
+        case 'auth/invalid-email':
+          msg = 'Email o Contraseña incorrectos.';
+          break;
+        case 'auth/too-many-requests':
+          msg =
+            'Has intentado demasiadas veces. Se bloqueará el acceso a la cuenta temporalmente';
+          break;
+      }
+      this.presentToast(msg, 'danger');
       return null;
     }
   }
@@ -59,5 +80,15 @@ export class AuthService {
 
   logout() {
     return signOut(this.auth);
+  }
+
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1500,
+      position: 'bottom',
+      color,
+    });
+    await toast.present();
   }
 }
