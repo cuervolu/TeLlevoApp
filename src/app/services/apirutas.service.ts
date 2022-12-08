@@ -38,7 +38,7 @@ import { format } from 'date-fns';
   providedIn: 'root',
 })
 export class ApirutasService {
-  ubicacion = 'http://cuervolu.pythonanywhere.com/api/ubicacion/';
+  ubicacion = 'https://cuervolu.pythonanywhere.com/api/ubicacion/';
   locationId: number;
   rutaId: string;
   httpOptions = {
