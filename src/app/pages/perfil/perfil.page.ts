@@ -204,6 +204,8 @@ export class PerfilPage implements OnInit {
       allowEditing: false,
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos,
+      width: 1080,
+      height: 1080
     });
     if (image) {
       const loading = await this.loadingCtrl.create({
