@@ -126,17 +126,18 @@ ion-content:not(#editProfile) {
       }
     }
   }
-
-  ion-modal {
-    --background: rgba(255, 255, 255, 0.8) !important;
-    ng-template {
-      ion-content {
-        --background: red;
-        ion-item {
-          --background: red !important;
-          margin: 100px;
-        }
-      }
+}
+ion-modal {
+  ion-title{
+    font-size: 0.8rem;
+  }
+  .form-input {
+    ion-note {
+      font-size: 10px;
+      color: #eb4c61;
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      text-align: center;
     }
   }
 }

@@ -62,11 +62,24 @@ export class PerfilPage implements OnInit {
 
   profileForm = this.fb.group({
     uid: [''],
-    email: [''],
-    username: [''],
-    firstName: [''],
-    lastName: [''],
-    sede: [''],
+    email: ['', [Validators.required, Validators.email]],
+    username: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.pattern('^[a-z0-9_-]{4,16}$'),
+      ],
+    ],
+    firstName: [
+      '',
+      [Validators.required, Validators.minLength(4), Validators.maxLength(30)],
+    ],
+    lastName: [
+      '',
+      [Validators.required, Validators.minLength(4), Validators.maxLength(30)],
+    ],
+    sede: ['', [Validators.required]],
   });
 
   handlerMessage = '';
@@ -86,6 +99,21 @@ export class PerfilPage implements OnInit {
     private plt: Platform
   ) {}
 
+  get email() {
+    return this.profileForm.get('email');
+  }
+  get username() {
+    return this.profileForm.get('username');
+  }
+  get firstName() {
+    return this.profileForm.get('firstName');
+  }
+  get lastName() {
+    return this.profileForm.get('lastName');
+  }
+  get sede() {
+    return this.profileForm.get('sede');
+  }
   ngOnInit() {
     this.loading = true;
     this.userService.getUserProfile().subscribe((data) => {
@@ -105,9 +133,16 @@ export class PerfilPage implements OnInit {
   //Modifica los datos de usuarios junto a Firebase
   async confirm() {
     const { uid, ...data } = this.profileForm.value;
+
     if (!uid) {
       this.presentToast('Ha ocurrido un error', 'danger');
     }
+
+    if (!this.profileForm.valid) {
+      this.presentToast('Debe rellenar los datos correctamente', 'danger');
+      return;
+    }
+
     const loading = await this.loadingCtrl.create({
       message: 'Modificando datos...',
       spinner: 'circles',
