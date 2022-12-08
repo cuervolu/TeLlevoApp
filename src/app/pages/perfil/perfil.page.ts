@@ -4,10 +4,17 @@ import {
   IonModal,
   LoadingController,
   ModalController,
+  Platform,
   RangeCustomEvent,
   ToastController,
 } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { ActionSheetController } from '@ionic/angular';
 import {
   FormBuilder,
@@ -22,6 +29,14 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { UserService, DataService } from '../../services';
 import { CarFormComponent } from '../../components/car-form/car-form.component';
+
+const IMAGE_DIR = 'stored-images';
+
+interface LocalFile {
+  name: string;
+  path: string;
+  data: string;
+}
 
 @Component({
   selector: 'app-perfil',
@@ -67,7 +82,8 @@ export class PerfilPage implements OnInit {
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private plt: Platform
   ) {}
 
   ngOnInit() {
@@ -119,6 +135,13 @@ export class PerfilPage implements OnInit {
           },
         },
         {
+          text: 'Capturar imagen',
+          icon: 'camera-outline',
+          handler: () => {
+            this.captureImage();
+          },
+        },
+        {
           text: 'Elegir de la biblioteca',
           icon: 'cloud-upload-outline',
           handler: () => {
@@ -139,6 +162,7 @@ export class PerfilPage implements OnInit {
     await actionSheet.present();
   }
 
+  //Cambia la imagen de perfil por una almacenada en el teléfono
   async changeImage() {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -160,6 +184,45 @@ export class PerfilPage implements OnInit {
       }
     }
   }
+
+  //Cambia la imagen de perfil por una tomada con la cámara
+  async captureImage() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Camera,
+      });
+      if (image) {
+        const loading = await this.loadingCtrl.create({
+          spinner: 'circles',
+          cssClass: 'custom-loading',
+        });
+        await loading.present();
+        this.saveImage(image);
+        const result = await this.userService.uploadImage(image);
+        loading.dismiss();
+        this.presentToast('Se ha modificado con éxito', 'success');
+        if (!result) {
+          this.presentToast('Hubo un error al subir tu avatar', 'danger');
+        }
+      }
+    } catch (error) {
+      this.presentToast('Se ha cancelado la captura de imagen', 'danger');
+    }
+  }
+
+  async saveImage(photo: Photo) {
+    const base64Data = await this.readAsBase64(photo);
+    const fileName = new Date().getTime() + '.jpeg';
+    const savedFile = await Filesystem.writeFile({
+      directory: Directory.Data,
+      path: `${IMAGE_DIR}/${fileName}`,
+      data: base64Data,
+    });
+  }
+
   async deleteImage() {
     const alert = await this.alertCtrl.create({
       header: '¿Estás seguro?',
@@ -196,6 +259,32 @@ export class PerfilPage implements OnInit {
     await alert.present();
     const { role } = await alert.onDidDismiss();
     this.roleMessage = `Dismissed with role: ${role}`;
+  }
+
+  convertBlobToBase64 = (blob: Blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
+
+  async readAsBase64(photo: Photo) {
+    if (this.plt.is('hybrid')) {
+      const file = await Filesystem.readFile({
+        path: photo.path,
+      });
+
+      return file.data;
+    } else {
+      // Obtiene la foto, la lee como un blob y luego la convierte al formato base64
+      const response = await fetch(photo.webPath);
+      const blob = await response.blob();
+
+      return (await this.convertBlobToBase64(blob)) as string;
+    }
   }
 
   //CHOFER
@@ -282,10 +371,10 @@ export class PerfilPage implements OnInit {
           handler: async () => {
             await this.authService.logout();
             this.router.navigateByUrl('/', { replaceUrl: true });
-          }
+          },
         },
       ],
-      mode: 'ios'
+      mode: 'ios',
     });
     await alert.present();
   }
