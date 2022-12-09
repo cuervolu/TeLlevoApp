@@ -17,7 +17,6 @@ declare let google;
 export class PassengerPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
 
-  watchId: number;
   sedes: Sede[] = [];
   isModalOpen = false;
   profile = null;
@@ -53,6 +52,7 @@ export class PassengerPage implements OnInit {
   ionViewDidLeave() {
     this.modal.dismiss();
   }
+
   async loadMap() {
     const loading = await this.loadingCtrl.create({
       message: 'Cargando mapa...',
