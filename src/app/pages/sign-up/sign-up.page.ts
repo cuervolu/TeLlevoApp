@@ -183,6 +183,8 @@ export class SignUpPage implements OnInit {
             'Por favor, inténtelo de nuevo'
           );
         }
+      }, (e) => {
+        console.error('Error: ' + e);
       });
 
     await loading.dismiss();

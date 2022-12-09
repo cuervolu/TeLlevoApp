@@ -20,15 +20,18 @@ export class AuthService {
   signup(email: string, password: string) {
     try {
       const user = from(
-        createUserWithEmailAndPassword(this.auth, email, password)
+        createUserWithEmailAndPassword(this.auth, email, password).catch(
+          (e) => {
+            if (e.code === 'auth/email-already-in-use') {
+              this.presentToast('El email ya se encuentra en uso', 'danger');
+              return null;
+            }
+          }
+        )
       );
       return user;
     } catch (e) {
       console.log(e);
-      console.log('Código de Error: '+e.code);
-      if (e.code === 'auth/email-already-in-use') {
-        this.presentToast('El email ya se encuentra en uso', 'danger');
-      }
       return null;
     }
   }
