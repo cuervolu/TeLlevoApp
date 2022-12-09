@@ -207,7 +207,7 @@ export class PerfilPage implements OnInit {
   async changeImage() {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos,
       width: 1080,
