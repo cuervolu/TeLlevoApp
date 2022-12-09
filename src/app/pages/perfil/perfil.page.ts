@@ -18,9 +18,6 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { ActionSheetController } from '@ionic/angular';
 import {
   FormBuilder,
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
   Validators,
 } from '@angular/forms';
 import { RangeValue } from '@ionic/core';
