@@ -65,7 +65,6 @@ export class ExplorarPage implements OnInit {
   origin: any;
   destination: any;
   enableTracker = true;
-  originMarker: Marker;
   destinationMarker: Marker;
 
   isDriving = false;
@@ -284,8 +283,6 @@ export class ExplorarPage implements OnInit {
               strokeColor: '#ffffff',
             },
           });
-
-          // this.addMarker(pos, map, 'Estás aquí');
         },
         (e) => {
           console.log(`Error en GeoLocation con código ${e.code}, Mensaje: ${e.message}` );
