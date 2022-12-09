@@ -62,6 +62,7 @@ export class ExplorarPage implements OnInit {
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
 
+  originArray: any[] = [];
   origin: any;
   destination: any;
   enableTracker = true;
@@ -271,6 +272,12 @@ export class ExplorarPage implements OnInit {
             lng: position.coords.longitude,
           };
           map.setCenter(pos);
+          if(this.originArray.length !== 0 ){
+            console.log('Hola');
+            for(const mark of this.originArray){
+              mark.setMap(null);
+            }
+          }
           const marker = new google.maps.Marker({
             position: pos,
             map,
@@ -283,6 +290,7 @@ export class ExplorarPage implements OnInit {
               strokeColor: '#ffffff',
             },
           });
+          this.originArray.push(marker);
         },
         (e) => {
           console.log(`Error en GeoLocation con código ${e.code}, Mensaje: ${e.message}` );
