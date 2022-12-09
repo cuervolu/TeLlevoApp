@@ -28,7 +28,7 @@ export class PassengerPage implements OnInit {
   ubicaciones: Ubicacion[] = [];
   choferProfile: UserProfile;
   today = format(new Date(), 'dd-MM-yyyy');
-
+  originArray: any[] = [];
   constructor(
     private userService: UserService,
     private dataService: DataService,
@@ -94,6 +94,7 @@ export class PassengerPage implements OnInit {
 
     this.getSedes(passengerMap);
   }
+
   getDrivers() {
     this.loading = true;
     this.userService.getUserProfile().subscribe((data) => {
@@ -124,7 +125,14 @@ export class PassengerPage implements OnInit {
     const user = this.auth.currentUser;
     this.rutasService
       .getUbicaciones()
-      .pipe(map((res) => res.filter((response) => response.uid !== user.uid && response.fecha === this.today)))
+      .pipe(
+        map((res) =>
+          res.filter(
+            (response) =>
+              response.uid !== user.uid && response.fecha === this.today
+          )
+        )
+      )
       .subscribe((data) => {
         this.ubicaciones = data;
         for (const chofer of this.ubicaciones) {
@@ -170,6 +178,14 @@ export class PassengerPage implements OnInit {
             lng: position.coords.longitude,
           };
           passengerMap.setCenter(pos);
+
+          if (this.originArray.length !== 0) {
+            for (const mark of this.originArray) {
+              mark.setMap(null);
+              this.originArray = [];
+            }
+          }
+
           const marker = new google.maps.Marker({
             position: pos,
             passengerMap,
@@ -182,8 +198,7 @@ export class PassengerPage implements OnInit {
               strokeColor: '#ffffff',
             },
           });
-
-          // this.addMarker(pos, map, 'Estás aquí');
+          this.originArray.push(marker);
         },
         (e) => {
           console.log(e);
