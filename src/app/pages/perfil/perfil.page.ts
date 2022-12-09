@@ -30,7 +30,13 @@ import { AuthService } from '../../auth/auth.service';
 import { UserService, DataService } from '../../services';
 import { CarFormComponent } from '../../components/car-form/car-form.component';
 
-
+// Image Cropper
+import {
+  ImageCroppedEvent,
+  ImageCropperComponent,
+  ImageTransform,
+} from 'ngx-image-cropper';
+import { Capacitor } from '@capacitor/core';
 
 const IMAGE_DIR = 'stored-images';
 
@@ -41,6 +47,14 @@ const IMAGE_DIR = 'stored-images';
 })
 export class PerfilPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
+  @ViewChild('cropper') cropper: ImageCropperComponent;
+  isMobile = Capacitor.getPlatform() !== 'web';
+
+  myImage: any = null;
+  croppedImage: any = '';
+  transform: ImageTransform = {};
+  isCropModalOpen = false;
+
   enablePaymentRange: boolean;
 
   driverPrice: RangeValue;
@@ -208,12 +222,9 @@ export class PerfilPage implements OnInit {
         cssClass: 'custom-loading',
       });
       await loading.present();
-      const result = await this.userService.uploadImage(image);
-      loading.dismiss();
-      this.presentToast('Se ha modificado con éxito', 'success');
-      if (!result) {
-        this.presentToast('Hubo un error al subir tu avatar', 'danger');
-      }
+      this.myImage = `data:image/jpeg;base64,${image.base64String}`;
+      this.croppedImage = null;
+      this.isCropModalOpen = true;
     }
   }
 
@@ -233,14 +244,14 @@ export class PerfilPage implements OnInit {
         });
         await loading.present();
         this.saveImage(image);
-        const result = await this.userService.uploadImage(image);
-        loading.dismiss();
-        this.presentToast('Se ha modificado con éxito', 'success');
-        if (!result) {
-          this.presentToast('Hubo un error al subir tu avatar', 'danger');
-        }
+        this.myImage = `data:image/jpeg;base64,${image.base64String}`;
+        this.croppedImage = null;
+        this.isCropModalOpen = true;
       }
     } catch (error) {
+      this.myImage = null;
+      this.croppedImage = null;
+      this.isCropModalOpen = false;
       this.presentToast('Se ha cancelado la captura de imagen', 'danger');
     }
   }
@@ -317,6 +328,70 @@ export class PerfilPage implements OnInit {
 
       return (await this.convertBlobToBase64(blob)) as string;
     }
+  }
+
+  // Called when cropper is ready
+  imageLoaded() {
+    this.loadingCtrl.dismiss();
+  }
+
+  // Called when we finished editing (because autoCrop is set to false)
+  async imageCropped(event: ImageCroppedEvent) {
+    const loading = await this.loadingCtrl.create({
+      spinner: 'circles',
+      cssClass: 'custom-loading',
+    });
+    await loading.present();
+    this.croppedImage = event;
+    const result = await this.userService.uploadImage(this.croppedImage);
+    loading.dismiss();
+    this.presentToast('Se ha modificado con éxito', 'success');
+    if (!result) {
+      this.presentToast('Hubo un error al subir tu avatar', 'danger');
+    }
+  }
+
+  //Encontramos un problema al cargar la imagen.
+  loadImageFailed() {
+    this.presentToast('Ha ocurrido un error', 'danger');
+  }
+
+  // Activar manualmente el recorte
+  cropImage() {
+    this.cropper.crop();
+    this.myImage = null;
+    this.isCropModalOpen = false;
+  }
+
+  // Descartar todos los cambios
+  discardChanges() {
+    this.myImage = null;
+    this.croppedImage = null;
+    this.isCropModalOpen = false;
+  }
+
+  // Edita la imagen
+  rotate() {
+    const newValue = ((this.transform.rotate ?? 0) + 90) % 360;
+
+    this.transform = {
+      ...this.transform,
+      rotate: newValue,
+    };
+  }
+
+  flipHorizontal() {
+    this.transform = {
+      ...this.transform,
+      flipH: !this.transform.flipH,
+    };
+  }
+
+  flipVertical() {
+    this.transform = {
+      ...this.transform,
+      flipV: !this.transform.flipV,
+    };
   }
 
   //CHOFER

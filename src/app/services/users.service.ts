@@ -20,6 +20,7 @@ import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { deleteField, collection, query, where } from 'firebase/firestore';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Injectable({
   providedIn: 'root',
@@ -171,12 +172,12 @@ export class UserService {
     }
   }
 
-  async uploadImage(cameraFile: Photo) {
+  async uploadImage(cameraFile: ImageCroppedEvent) {
     const user = this.auth.currentUser;
     const path = `uploads/${user.uid}/profile.jpeg`;
     const storageRef = ref(this.storage, path);
     try {
-      await uploadString(storageRef, cameraFile.base64String, 'base64');
+      await uploadString(storageRef, cameraFile.base64.split(',')[1], 'base64');
 
       const imageUrl = await getDownloadURL(storageRef);
 

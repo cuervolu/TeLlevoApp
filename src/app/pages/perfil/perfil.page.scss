@@ -5,7 +5,7 @@ ion-toolbar {
   --background: #f1f5f8;
 }
 
-ion-content:not(#editProfile) {
+ion-content:not(#editProfile):not(.cropImage) {
   --background: linear-gradient(
     90deg,
     rgba(43, 90, 148, 1) 0%,
@@ -128,8 +128,8 @@ ion-content:not(#editProfile) {
     }
   }
 }
-ion-modal {
-  ion-title{
+ion-modal:not(.cropImage) {
+  ion-title {
     font-size: 0.8rem;
   }
   .form-input {
@@ -139,6 +139,43 @@ ion-modal {
       font-family: "Roboto", sans-serif;
       font-weight: 400;
       text-align: center;
+    }
+  }
+}
+
+.cropImage {
+  ion-toolbar {
+    --background: #1d1b26;
+    --color: #fffdfe;
+    ion-title{
+      font-size: 0.9rem;
+    }
+  }
+  ion-content {
+    --background: #1d1b26;
+    ion-button {
+      font-size: 0.5rem;
+    }
+    image-cropper {
+      --cropper-outline-color: rgba(0, 0, 0, 0.642);
+      --cropper-overlay-color: var(--ion-background-color);
+    }
+  }
+}
+
+@media (min-width: 760px) {
+  .cropImage {
+    ion-toolbar {
+      ion-title{
+        font-size: 1.5rem;
+        text-align: center;
+      }
+    }
+    ion-content {
+      ion-button {
+        font-size: 1rem;
+      }
+
     }
   }
 }
