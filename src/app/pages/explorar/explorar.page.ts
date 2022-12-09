@@ -273,7 +273,6 @@ export class ExplorarPage implements OnInit {
           };
           map.setCenter(pos);
           if(this.originArray.length !== 0 ){
-            console.log('Hola');
             for(const mark of this.originArray){
               mark.setMap(null);
               this.originArray = [];
