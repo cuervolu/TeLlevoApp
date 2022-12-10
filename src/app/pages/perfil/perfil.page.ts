@@ -16,10 +16,7 @@ import {
 } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { ActionSheetController } from '@ionic/angular';
-import {
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { RangeValue } from '@ionic/core';
 import { Router } from '@angular/router';
 
@@ -240,7 +237,6 @@ export class PerfilPage implements OnInit {
           cssClass: 'custom-loading',
         });
         await loading.present();
-        this.saveImage(image);
         this.myImage = `data:image/jpeg;base64,${image.base64String}`;
         this.croppedImage = null;
         this.isCropModalOpen = true;
@@ -254,13 +250,19 @@ export class PerfilPage implements OnInit {
   }
 
   async saveImage(photo: Photo) {
-    const base64Data = await this.readAsBase64(photo);
-    const fileName = new Date().getTime() + '.jpeg';
-    const savedFile = await Filesystem.writeFile({
-      directory: Directory.Data,
-      path: `${IMAGE_DIR}/${fileName}`,
-      data: base64Data,
-    });
+    try {
+      const base64Data = await this.readAsBase64(photo);
+      console.log(base64Data);
+      const fileName = new Date().getTime() + '.jpeg';
+      console.log(fileName);
+      const savedFile = await Filesystem.writeFile({
+        directory: Directory.Data,
+        path: fileName,
+        data: base64Data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async deleteImage() {
@@ -340,6 +342,7 @@ export class PerfilPage implements OnInit {
     });
     await loading.present();
     this.croppedImage = event;
+    // this.saveImage(this.croppedImage.base64);
     const result = await this.userService.uploadImage(this.croppedImage);
     loading.dismiss();
     this.presentToast('Se ha modificado con éxito', 'success');
