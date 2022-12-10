@@ -423,6 +423,42 @@ export class ExplorarPage implements OnInit {
     await alert.present();
   }
 
+  async finalizarRuta(){
+    const alert = await this.alertCtrl.create({
+      header: 'Finalizar Viaje',
+      message: '¿Estás seguro de que quieres finalizar el viaje?',
+      buttons: [
+        {
+          text: 'No, seguir con el viaje',
+          role: 'cancel',
+        },
+        {
+          text: 'Estoy seguro',
+          role: 'confirm',
+          handler: () => {
+            this.directionsDisplay.setDirections({ routes: [] });
+            this.modal.setCurrentBreakpoint(0.25);
+            this.isDriving = false;
+            this.userService.enRuta(false);
+            if(this.rutaId !== undefined){
+              this.rutas.finalizarRuta(this.rutaId);
+              this.rutas.iniciarRuta(this.rutaId, false);
+            }
+            this.wayPoints.splice(0);
+            this.presentToast(
+              'Viaje finalizado exitosamente',
+              'success',
+              'checkmark-circle-outline'
+            );
+          },
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
+  }
+
   redirectTo(name: string) {
     this.modal.dismiss();
     this.router.navigateByUrl(`/tabs/${name}`);

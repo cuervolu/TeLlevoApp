@@ -44,6 +44,10 @@
                 <app-is-driving [destiny]="destiny" [latlng]="destination"></app-is-driving>
               </ion-col>
               <ion-col size="12" class="ion-align-items-center">
+                <ion-button (click)="finalizarRuta()" mode="ios" color="success" expand="block">
+                  <ion-icon slot="end" name="close-outline"></ion-icon>
+                  Finalizar Viaje
+                </ion-button>
                 <ion-button (click)="cancelRoute()" mode="ios" color="danger" expand="block">
                   <ion-icon slot="end" name="close-outline"></ion-icon>
                   Cancelar Viaje
