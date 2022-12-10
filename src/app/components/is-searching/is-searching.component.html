@@ -34,12 +34,21 @@
   </ng-container>
 </ion-list>
 <!-- End Skeleton Text -->
-<ng-container *ngIf="!loading">
+<ng-container *ngIf="!loading" class="ion-padding">
   <ion-list lines="none" mode="ios" *ngIf="profile.enEspera === undefined || profile.enEspera === false; else onHold">
     <ion-list-header>
       <ion-label class="ion-text-center">Contratar Chofer</ion-label>
     </ion-list-header>
-
+    <ng-container *ngIf="noDrivers">
+      <ion-grid fixed>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" class="noDrivers">
+            <ion-label>Lo sentimos, no hay choferes disponibles en tu zona...</ion-label>
+            <ion-img src="../../../assets/sad.gif"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
     <ng-container *ngFor="let driver of drivers">
       <ion-item lines="none" *ngIf="!loading && driver.vehiculo !== undefined" (click)="onSelectDriver(driver.uid)">
         <ion-grid fixed>
@@ -74,4 +83,3 @@
 <ng-template #onHold>
   <app-on-hold [chofer]="driver" (sendRutaIdToParent)="getRutaId($event)"></app-on-hold>
 </ng-template>
-

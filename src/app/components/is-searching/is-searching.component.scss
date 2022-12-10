@@ -36,6 +36,19 @@ ion-item {
   }
 }
 
+.noDrivers{
+  text-align: center;
+  ion-label{
+    font-weight: 200;
+    font-size: 0.9rem;
+  }
+  ion-img{
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+
+
 @media (min-width: 768px) {
   ion-item {
     ion-label {

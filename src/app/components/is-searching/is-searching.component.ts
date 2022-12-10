@@ -20,7 +20,7 @@ export class IsSearchingComponent implements OnInit {
   choferData: UserProfile;
   rutaId: string;
   ruta: ContratoRuta;
-
+  noDrivers = false;
 
   constructor(
     private userService: UserService,
@@ -46,19 +46,24 @@ export class IsSearchingComponent implements OnInit {
         .subscribe((res) => {
           this.drivers = res;
           this.drivers = this.drivers.sort((a, b) => a.precio - b.precio);
+          if (!this.drivers.length) {
+            this.noDrivers = true;
+          } else {
+            this.noDrivers = false;
+          }
           this.loading = false;
         });
     });
   }
 
-  saveChoferInLS(chofer: UserProfile){
+  saveChoferInLS(chofer: UserProfile) {
     localStorage.setItem('chofer', JSON.stringify(chofer));
   }
 
-  getRutaId(e){
+  getRutaId(e) {
     this.rutaId = e;
     this.choferData = JSON.parse(localStorage.getItem('chofer'));
-    this.rutas.getRutas(this.choferData,this.rutaId).subscribe((data) => {
+    this.rutas.getRutas(this.choferData, this.rutaId).subscribe((data) => {
       this.ruta = data as ContratoRuta;
     });
   }
@@ -80,5 +85,4 @@ export class IsSearchingComponent implements OnInit {
       this.saveChoferInLS(this.driver);
     }
   }
-
 }
