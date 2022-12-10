@@ -56,7 +56,7 @@ ion-content {
       display: flex;
       align-items: center;
       justify-content: center;
-
+      margin: 0 auto;
       img {
         width: 30px;
       }
@@ -122,21 +122,20 @@ ion-content {
       ion-slides {
         ion-slide {
           ion-card {
+            width: 50%;
             ion-card-header {
               .main {
-                margin: auto;
+                margin: 0 auto;
                 display: block;
                 img {
-                  width: 60%;
+                  width: 90%;
                 }
               }
             }
-
-            ion-card-content {
-              ion-card-title {
-                h3 {
-                }
-              }
+          }
+          ion-card-title {
+            h3 {
+              font-size: 1.2rem;
             }
           }
         }
